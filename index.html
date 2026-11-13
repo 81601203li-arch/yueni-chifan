@@ -7,12 +7,15 @@
   <meta name="format-detection" content="telephone=yes">
   <title>约你吃饭 · 锦途川滇</title>
   <style>
+@font-face{font-family:"Yueni Song";src:url("fonts/song.woff2?v=8") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Yueni Kai";src:url("fonts/kai.woff2?v=8") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 
 :root, .theme-jacaranda{
   --bg:#F5F3FA;--paper:#FCFBFE;--ink:#25213A;--muted:#6F6A85;
   --line:#E2DEEE;--accent:#8A7FD0;--primary:#4B3F8C;--tint:#E6E1F5;--on:#FFFFFF;
   --page-bg:#E6E2F0;--shadow:0 8px 20px rgba(37,33,58,.04);--radius:0px;--motif-filter:none;
-  --serif:"Songti SC","STSong","Source Han Serif SC","Noto Serif CJK SC","SimSun",serif;
+  --serif:"Yueni Song","Songti SC","STSong","Source Han Serif SC","Noto Serif CJK SC","SimSun",serif;
+  --kai:"Yueni Kai","Kaiti SC","STKaiti","KaiTi","LXGW WenKai","STSong",serif;
   --sans:"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
 }
 .theme-cnred{
@@ -59,9 +62,9 @@ html.shot .ambience .bit{display:none !important}
 .view:not(.hidden){animation:fade .35s ease both}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .kicker{font-size:12px;letter-spacing:.28em;color:var(--accent);text-align:center}
-.display{font-family:var(--serif);font-weight:500;font-size:26px;text-align:center;margin:8px 0 0;letter-spacing:.04em;line-height:1.4}
+.display{font-family:var(--serif);font-weight:500;font-size:26px;text-align:center;margin:8px 0 0;letter-spacing:.06em;line-height:1.45}
 .sub{text-align:center;color:var(--muted);font-size:15px;line-height:1.8;margin:8px 0 0}
-.section{font-family:var(--serif);font-size:16px;margin:32px 0 12px;font-weight:500}
+.section{font-family:var(--serif);font-size:17px;margin:32px 0 12px;font-weight:500;letter-spacing:.04em}
 .lbl{display:block;font-size:13px;letter-spacing:.14em;color:var(--muted);margin:24px 0 8px}
 .hint{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.6}
 .field{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;outline:none;border-radius:0}
@@ -78,31 +81,31 @@ textarea.field,.area{border:1px solid var(--line);padding:12px;min-height:88px;r
 .chip.on{border-color:var(--primary);color:var(--primary);background:var(--tint)}
 .card{border:1px solid var(--line);background:var(--paper);padding:24px 20px;margin:16px 0;box-shadow:var(--shadow);border-radius:var(--radius,0)}
 .card .mark{text-align:center;letter-spacing:.4em;font-size:12px;color:var(--muted)}
-.card h2{font-family:var(--serif);font-weight:500;text-align:center;font-size:22px;margin:8px 0 0}
+.card h2{font-family:var(--serif);font-weight:500;text-align:center;font-size:22px;margin:8px 0 0;letter-spacing:.06em}
 .card .pair{text-align:center;color:var(--accent);margin:8px 0 20px;font-size:13px}
 .card dl{margin:0;display:grid;grid-template-columns:52px 1fr;gap:6px 12px;font-size:13px}
 .card dt{color:var(--muted)}
-.card .vow{text-align:center;font-family:var(--serif);margin:12px 0 6px}
+.card .vow{text-align:center;font-family:var(--serif);margin:12px 0 6px;letter-spacing:.04em}
 .card .price-note{text-align:left;margin:4px 0 0;font-size:12px;color:var(--muted)}
 .meta{font-size:13px;color:var(--muted);margin-top:2px}
 .env{border:1px solid var(--line);background:var(--paper);padding:28px 24px;margin:16px 0 12px;box-shadow:var(--shadow);border-radius:var(--radius,0)}
 .env .rule{height:1px;background:var(--line)}
-.env-front .to{font-family:var(--serif);font-size:24px;text-align:center;margin:28px 0 16px;letter-spacing:.12em}
+.env-front .to{font-family:var(--serif);font-size:24px;text-align:center;margin:28px 0 16px;letter-spacing:.16em}
 .env-front .hint{text-align:center;font-size:13px;letter-spacing:.24em;color:var(--muted);margin-bottom:28px}
 .env-letter{animation:fade .45s ease both}
-.env-letter .to{font-family:var(--serif);font-size:16px;margin-bottom:16px}
-.env-letter .body{font-size:14px;line-height:2;margin:0;white-space:pre-line}
-.env-letter .from{text-align:right;margin-top:24px;font-family:var(--serif);color:var(--accent)}
-.rest{text-align:center;font-size:13px;letter-spacing:.16em;color:var(--muted)}
+.env-letter .to{font-family:var(--serif);font-size:17px;margin-bottom:16px;letter-spacing:.08em}
+.env-letter .body{font-family:var(--serif);font-size:15px;line-height:2.05;margin:0;white-space:pre-line;letter-spacing:.04em}
+.env-letter .from{text-align:right;margin-top:24px;font-family:var(--serif);color:var(--accent);letter-spacing:.12em;font-size:16px}
+.rest{text-align:center;font-size:12px;letter-spacing:.18em;color:var(--muted)}
 .motif{display:block;width:80px;height:64px;margin:8px auto 0;opacity:.45;filter:var(--motif-filter,none)}
 .item{border-bottom:1px solid var(--line);padding:20px 0}
 .item .top{display:flex;justify-content:space-between;align-items:baseline}
-.item .name{font-family:var(--serif);font-size:17px}
+.item .name{font-family:var(--kai);font-size:17px}
 .item .st{font-size:12px;letter-spacing:.12em;color:var(--accent)}
 .item .im{font-size:13px;color:var(--muted);margin-top:4px}
 .item .reply{margin-top:10px;font-size:13px;line-height:1.8}
 .count{display:flex;justify-content:center;gap:24px;margin:4px 0 8px}
-.count b{display:block;font-family:var(--serif);font-size:24px;font-weight:500;text-align:center}
+.count b{display:block;font-family:var(--serif);font-size:24px;font-weight:500;text-align:center;letter-spacing:.04em}
 .count span{display:block;font-size:12px;letter-spacing:.16em;color:var(--muted);text-align:center}
 .path{font-size:12px;color:var(--muted);word-break:break-all;line-height:1.6}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;font-size:12px;letter-spacing:.08em;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none;white-space:nowrap;max-width:90%}
@@ -111,28 +114,25 @@ html.shot .toast{display:none}
 .mute{position:absolute;top:12px;right:16px;z-index:5;font-size:12px;color:var(--muted);letter-spacing:.08em;min-height:32px}
 .when-block{text-align:center;margin:24px 0 8px}
 .when-kicker{font-size:12px;letter-spacing:.28em;color:var(--accent)}
-.when-title{font-family:var(--serif);font-size:20px;margin-top:4px}
+.when-title{font-family:var(--serif);font-size:24px;margin-top:6px;letter-spacing:.04em;line-height:1.45;font-weight:500}
 .when-addr{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6}
-.sig-block{margin:16px 0 4px}
-.sig-kicker{text-align:center;font-size:12px;letter-spacing:.28em;color:var(--accent);margin-bottom:8px}
-.sigs{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
-.sig{padding:8px 0;border-bottom:1px solid var(--line)}
-.sig-tag{font-size:11px;letter-spacing:.16em;color:var(--accent)}
-.sig-name{font-family:var(--serif);font-size:15px;margin-top:2px;line-height:1.35}
 .price-note{text-align:center;font-size:12px;color:var(--muted);margin:8px 0 0}
 .price-note.left{text-align:left;margin:0 0 4px}
 .dish-row{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;padding:12px 0;border-bottom:1px solid var(--line)}
 .dish-row .tick{width:14px;height:14px;margin-top:5px;flex-shrink:0;border:1px solid rgba(75,63,140,.35);box-sizing:border-box}
 .dish-row.on .tick{background:var(--primary);border-color:var(--primary)}
-.dish-row .dn{font-family:var(--serif);font-size:16px;line-height:1.4}
-.dish-row .dtag{font-size:11px;letter-spacing:.12em;color:var(--accent);margin-left:8px}
-.dish-row .dmeta,.dish-row .ddesc{font-size:13px;color:var(--muted);margin-top:2px}
+.dish-row .name-line{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.dish-row .dn{font-family:var(--kai);font-size:18px;line-height:1.45}
+.dish-row .dtag{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--sans);font-size:11px;line-height:1;font-weight:500;letter-spacing:.06em;padding:3px 8px 2px;border-radius:2px;border:1px solid var(--primary)}
+.dish-row .dtag.tag-push{background:var(--primary);color:var(--on);border-color:var(--primary)}
+.dish-row .dtag.tag-sig{background:transparent;color:var(--primary)}
+.dish-row .dmeta,.dish-row .ddesc{font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:3px}
 .pet-drop{text-align:center;margin:16px 0 8px;opacity:0;transform:translateY(-8px);transition:all .5s ease}
 .pet-drop.in{opacity:1;transform:none}
 .pet-img{width:100px;height:100px;object-fit:contain}
 .pet-img.idle{animation:petIdle 2.6s ease-in-out infinite}
 @keyframes petIdle{0%,100%{transform:translateY(0)}40%{transform:translateY(-4px)}50%{opacity:.35}52%{opacity:1}}
-.pet-name,.pet-input{font-family:var(--serif);font-size:15px;text-align:center;margin-top:6px}
+.pet-name,.pet-input{font-family:var(--kai);font-size:16px;text-align:center;margin-top:6px}
 .pet-input{border-bottom:1px solid var(--line);padding:6px 0;width:60%;margin:6px auto 0;display:block}
 .pet-line{font-size:12px;color:var(--muted);margin-top:4px}
 .flower-line{text-align:center;font-size:13px;color:var(--accent);margin:8px 0}
@@ -171,12 +171,94 @@ html.shot .toast{display:none}
 .swatch span{font-size:11px;letter-spacing:.04em;color:var(--muted)}
 .swatch.on span{color:var(--ink)}
 .theme-macaron .swatch .dots{border-radius:14px}
+
+/* ---- seasons (atmosphere layer on top of color theme) ---- */
+.season{pointer-events:none;position:absolute;inset:0;z-index:4;overflow:hidden}
+.season-wash{position:absolute;inset:0;transition:opacity .6s ease}
+.phone[data-season="spring"] .season-wash{background:
+  radial-gradient(ellipse at 18% -4%,rgba(236,186,206,.32),transparent 58%),
+  radial-gradient(ellipse at 92% 100%,rgba(196,176,220,.16),transparent 52%)}
+.phone[data-season="summer"] .season-wash{background:
+  radial-gradient(ellipse at 80% -10%,rgba(255,214,120,.48),transparent 54%),
+  radial-gradient(ellipse at 12% 100%,rgba(110,158,72,.18),transparent 50%),
+  linear-gradient(180deg,rgba(255,236,190,.16),transparent 38%)}
+.phone[data-season="autumn"] .season-wash{background:
+  radial-gradient(ellipse at 8% 0,rgba(196,86,36,.12),transparent 52%),
+  radial-gradient(ellipse at 92% 86%,rgba(196,140,40,.14),transparent 50%),
+  linear-gradient(180deg,rgba(160,70,28,.05),transparent 32%)}
+.phone[data-season="winter"] .season-wash{background:
+  radial-gradient(ellipse at 50% -8%,rgba(226,234,246,.42),transparent 54%),
+  linear-gradient(180deg,rgba(210,220,236,.12),transparent 42%)}
+.theme-blackgold[data-season="spring"] .season-wash,
+.theme-redgold[data-season="spring"] .season-wash{background:
+  radial-gradient(ellipse at 18% 0,rgba(227,200,138,.14),transparent 56%),
+  radial-gradient(ellipse at 90% 100%,rgba(180,140,80,.08),transparent 50%)}
+.theme-blackgold[data-season="summer"] .season-wash,
+.theme-redgold[data-season="summer"] .season-wash{background:
+  radial-gradient(ellipse at 80% -8%,rgba(227,200,138,.28),transparent 52%),
+  radial-gradient(ellipse at 16% 100%,rgba(201,164,92,.10),transparent 50%)}
+.theme-blackgold[data-season="autumn"] .season-wash,
+.theme-redgold[data-season="autumn"] .season-wash{background:
+  radial-gradient(ellipse at 10% 0,rgba(201,164,92,.16),transparent 52%),
+  radial-gradient(ellipse at 90% 80%,rgba(180,100,40,.12),transparent 50%)}
+.theme-blackgold[data-season="winter"] .season-wash,
+.theme-redgold[data-season="winter"] .season-wash{background:
+  radial-gradient(ellipse at 50% -8%,rgba(243,230,196,.14),transparent 54%),
+  linear-gradient(180deg,rgba(227,200,138,.06),transparent 40%)}
+.sbit{position:absolute;top:-8%;pointer-events:none;will-change:transform,opacity;animation:seasonFall linear infinite}
+.sbit-petal{width:16px;height:12px;border-radius:80% 0 70% 20%;background-color:#E7B4C6;transform:rotate(20deg)}
+.sbit-petal.p2{background-color:#D4C0E8}
+.sbit-petal.p3{background-color:#F3D2DC}
+.sbit-mote{width:7px;height:7px;border-radius:50%;background:rgba(255,220,140,.75);box-shadow:0 0 12px rgba(255,210,120,.45);top:auto;animation-name:seasonMote;animation-timing-function:ease-in-out}
+.sbit-maple,.sbit-ginkgo{width:18px;height:18px;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center}
+.sbit-maple{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23000' d='M32 4c1.2 8 5 13 11 16 8-2 16 2 18 8-6 3-11 3-16 1 6 5 10 12 9 19-7-1-13-5-17-10 1 7 0 14-5 20v6h-2v-6c-5-6-6-13-5-20-4 5-10 9-17 10-1-7 3-14 9-19-5 2-10 2-16-1 2-6 10-10 18-8 6-3 9.8-8 11-16z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23000' d='M32 4c1.2 8 5 13 11 16 8-2 16 2 18 8-6 3-11 3-16 1 6 5 10 12 9 19-7-1-13-5-17-10 1 7 0 14-5 20v6h-2v-6c-5-6-6-13-5-20-4 5-10 9-17 10-1-7 3-14 9-19-5 2-10 2-16-1 2-6 10-10 18-8 6-3 9.8-8 11-16z'/%3E%3C/svg%3E");background-color:#C45A2A}
+.sbit-maple.m2{background-color:#B8431A}
+.sbit-maple.m3{background-color:#D4782A}
+.sbit-ginkgo{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23000' d='M32 58V40C18 40 8 29 6 16c11 5 18 3 26-10 8 13 15 15 26 10-2 13-12 24-26 24v18z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23000' d='M32 58V40C18 40 8 29 6 16c11 5 18 3 26-10 8 13 15 15 26 10-2 13-12 24-26 24v18z'/%3E%3C/svg%3E");background-color:#D4A017}
+.sbit-ginkgo.g2{background-color:#E0B84A}
+.sbit-snow{width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.45)}
+.theme-blackgold .sbit-maple,.theme-redgold .sbit-maple{background-color:#C9A45C}
+.theme-blackgold .sbit-maple.m2,.theme-redgold .sbit-maple.m2{background-color:#E3C88A}
+.theme-blackgold .sbit-maple.m3,.theme-redgold .sbit-maple.m3{background-color:#A6863E}
+.theme-blackgold .sbit-ginkgo,.theme-redgold .sbit-ginkgo{background-color:#E3C88A}
+.theme-blackgold .sbit-ginkgo.g2,.theme-redgold .sbit-ginkgo.g2{background-color:#C9A45C}
+.theme-blackgold .sbit-petal,.theme-redgold .sbit-petal{background-color:#E3C88A}
+.theme-blackgold .sbit-petal.p2,.theme-redgold .sbit-petal.p2{background-color:#C9A45C}
+.theme-blackgold .sbit-snow,.theme-redgold .sbit-snow{background:#F3E6C4;box-shadow:0 0 8px rgba(243,230,196,.4)}
+.theme-blackgold .sbit-mote,.theme-redgold .sbit-mote{background:rgba(227,200,138,.8);box-shadow:0 0 12px rgba(227,200,138,.45)}
+@keyframes seasonFall{
+  0%{transform:translate3d(0,0,0) rotate(0) scale(var(--scale,1));opacity:0}
+  8%{opacity:var(--op,.65)}
+  86%{opacity:calc(var(--op,.65)*0.55)}
+  100%{transform:translate3d(var(--drift,24px),112vh,0) rotate(var(--rot,200deg)) scale(var(--scale,1));opacity:0}
+}
+@keyframes seasonMote{
+  0%{opacity:0;transform:translate3d(0,8px,0) scale(.5)}
+  22%{opacity:.7;transform:translate3d(var(--drift,10px),0,0) scale(1)}
+  55%{opacity:.3}
+  78%{opacity:.6;transform:translate3d(calc(var(--drift,10px)*-1),-16px,0) scale(1)}
+  100%{opacity:0;transform:translate3d(0,-8px,0) scale(.4)}
+}
+html.shot .sbit{animation-play-state:paused !important}
+html.shot-typog .sbit{display:none !important}
+.season-picks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 8px}
+.season-pick{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 8px;border:1px solid var(--line);background:transparent;border-radius:var(--radius,0);color:inherit}
+.season-pick.on{border-color:var(--primary);background:var(--tint);color:var(--primary)}
+.season-pick .ico{width:22px;height:22px;opacity:.9}
+.season-pick .ico.spring{border-radius:80% 0 80% 0;background:#E7B4C6;transform:rotate(20deg)}
+.season-pick .ico.summer{border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFE7A0,#E8B84A 70%);box-shadow:0 0 8px rgba(232,184,74,.45)}
+.season-pick .ico.autumn{width:18px;height:18px;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23000' d='M32 4c1.2 8 5 13 11 16 8-2 16 2 18 8-6 3-11 3-16 1 6 5 10 12 9 19-7-1-13-5-17-10 1 7 0 14-5 20v6h-2v-6c-5-6-6-13-5-20-4 5-10 9-17 10-1-7 3-14 9-19-5 2-10 2-16-1 2-6 10-10 18-8 6-3 9.8-8 11-16z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23000' d='M32 4c1.2 8 5 13 11 16 8-2 16 2 18 8-6 3-11 3-16 1 6 5 10 12 9 19-7-1-13-5-17-10 1 7 0 14-5 20v6h-2v-6c-5-6-6-13-5-20-4 5-10 9-17 10-1-7 3-14 9-19-5 2-10 2-16-1 2-6 10-10 18-8 6-3 9.8-8 11-16z'/%3E%3C/svg%3E");-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;background:#C45A2A}
+.season-pick .ico.winter{border-radius:50%;background:#fff;box-shadow:0 0 0 1px rgba(160,180,210,.4),0 0 8px rgba(200,220,240,.6);width:12px;height:12px;margin-top:5px;margin-bottom:5px}
+.theme-blackgold .season-pick .ico.autumn,.theme-redgold .season-pick .ico.autumn{background:#C9A45C}
+.theme-blackgold .season-pick .ico.winter,.theme-redgold .season-pick .ico.winter{background:#F3E6C4}
+.season-pick span{font-family:var(--serif);font-size:16px;letter-spacing:.16em}
 </style>
 </head>
 <body>
 
 <div class="app"><div class="phone theme-jacaranda" id="phone">
   <button class="mute hidden" type="button" id="btnMute">八音盒</button>
+  <div class="season" id="seasonLayer" aria-hidden="true"><div class="season-wash"></div><div class="season-bits" id="seasonBits"></div></div>
   <div class="ambience hidden" id="ambience"></div>
 
 <section class="view hidden" id="view-create">
@@ -189,6 +271,9 @@ html.shot .toast{display:none}
   <div class="chips" id="occasionList"></div>
   <label class="lbl">信笺颜色</label>
   <div class="theme-swatches" id="themeList"></div>
+  <label class="lbl">节令花式</label>
+  <p class="hint">按春夏秋冬自动更换，也可点选预览。</p>
+  <div class="season-picks" id="seasonList"></div>
   <div id="toField">
     <label class="lbl" for="inTo">邀请谁</label>
     <input class="field" id="inTo" maxlength="16" placeholder="例如：晚晚">
@@ -247,11 +332,6 @@ html.shot .toast{display:none}
       <div class="when-kicker">赴约时间</div>
       <div class="when-title" id="whenTitle"></div>
       <div class="when-addr" id="whenAddr"></div>
-    </div>
-    <div class="sig-block">
-      <p class="sig-kicker">招牌</p>
-      <div class="sigs" id="sigList"></div>
-      <p class="price-note">价格以店内为准</p>
     </div>
     <div class="pet-drop" id="petDrop">
       <img class="pet-img idle" id="petImg" alt="">
@@ -339,10 +419,33 @@ function getTheme(id){
   for(var i=0;i<THEMES.length;i++) if(THEMES[i].id===id) return THEMES[i];
   return THEMES[0];
 }
+var SEASONS = [
+  {id:"spring",label:"春",code:"c"},
+  {id:"summer",label:"夏",code:"x"},
+  {id:"autumn",label:"秋",code:"a"},
+  {id:"winter",label:"冬",code:"d"}
+];
+var SEASON_CODE={spring:"c",summer:"x",autumn:"a",winter:"d"};
+var SEASON_FROM={c:"spring",x:"summer",a:"autumn",d:"winter"};
+function currentSeason(date){
+  var d=date||new Date(), m;
+  try{
+    var parts=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Shanghai",month:"numeric"}).formatToParts(d);
+    for(var i=0;i<parts.length;i++) if(parts[i].type==="month") m=Number(parts[i].value);
+  }catch(e){ m=d.getMonth()+1; }
+  if(m>=3&&m<=5) return "spring";
+  if(m>=6&&m<=8) return "summer";
+  if(m>=9&&m<=11) return "autumn";
+  return "winter";
+}
+function getSeason(id){
+  for(var i=0;i<SEASONS.length;i++) if(SEASONS[i].id===id) return SEASONS[i];
+  return getSeason(currentSeason());
+}
 var state = {
   view: "envelope", opened: false, id: "",
   to: "你", from: "我", message: "", scene: "lover", occasion: "",
-  theme: "jacaranda",
+  theme: "jacaranda", season: currentSeason(),
   slotDate: "", slotTime: "",
   flower: "", pet: "", ambience: "", music: "gentle", musicTouched: false,
   reply: { dishes: [], note: "", petName: "", attending: true, timeChange: false },
@@ -468,7 +571,7 @@ function compactInv(){
   return {
     t:state.to,f:state.from,m:state.message,s:state.scene,o:state.occasion||"",
     d:state.slotDate,ti:state.slotTime,fl:state.flower||"",p:state.pet||"",
-    a:state.ambience||"",u:state.music||"",th:state.theme||"jacaranda",id:state.id||""
+    a:state.ambience||"",u:state.music||"",th:state.theme||"jacaranda",q:state.season||"",id:state.id||""
   };
 }
 function compactInvMin(){
@@ -487,6 +590,7 @@ function compactInvMin(){
   var dm=defaultMusic(state.scene,state.occasion);
   if(state.music && aliasMusic(state.music)!==dm) o.u=aliasMusic(state.music);
   if(state.theme && state.theme!=="jacaranda") o.h=THEME_CODE[state.theme]||state.theme;
+  if(state.season) o.q=SEASON_CODE[state.season]||state.season;
   var msg=(state.message||"").trim();
   var def=sceneMessage(state.scene,state.occasion).trim();
   if(msg && msg!==def) o.m=state.message;
@@ -503,6 +607,7 @@ function applyCompactInv(c){
   else { state.slotDate=c.d||""; state.slotTime=c.ti||""; }
   state.flower=c.fl||""; state.pet=c.p||""; state.ambience=c.a||"";
   state.theme=c.h? (THEME_FROM[c.h]||c.h) : (c.th||"jacaranda");
+  state.season=c.q? (SEASON_FROM[c.q]||c.q) : (c.season||currentSeason());
   state.music=c.u? aliasMusic(c.u) : defaultMusic(state.scene,state.occasion);
   state.id=c.id||state.id||"";
   state.message=c.m||sceneMessage(state.scene,state.occasion);
@@ -592,7 +697,7 @@ function inviteDoc(){
     id:state.id, to:state.to, from:state.from, message:state.message,
     scene:state.scene, occasion:state.occasion,
     slots:slot?[slot]:[], flower:state.flower, pet:state.pet,
-    ambience:state.ambience, music:state.music, theme:state.theme||"jacaranda"
+    ambience:state.ambience, music:state.music, theme:state.theme||"jacaranda", season:state.season||currentSeason()
   };
 }
 function upsertMine(doc){
@@ -645,14 +750,19 @@ function setMuted(v){
 /* ---- render ---- */
 function applyTheme(){
   var th=getTheme(state.theme||"jacaranda");
+  var season=getSeason(state.season).id;
+  state.season=season;
   var phone=$("phone");
   phone.className="phone theme-"+th.id;
   phone.setAttribute("data-scene", state.scene||"lover");
+  phone.setAttribute("data-season", season);
   var root=document.documentElement;
   var shot=root.classList.contains("shot");
-  root.className=(shot?"shot ":"")+"theme-"+th.id;
+  var typog=root.classList.contains("shot-typog");
+  root.className=(shot?"shot ":"")+(typog?"shot-typog ":"")+"theme-"+th.id;
   var meta=document.querySelector('meta[name="theme-color"]');
   if(meta) meta.setAttribute("content", th.bg);
+  syncSeasonLayer();
 }
 function showView(name){
   state.view=name;
@@ -668,6 +778,9 @@ function renderChips(){
   $("themeList").innerHTML=THEMES.map(function(th){
     var dots=th.swatches.map(function(c){ return "<i style=\"background:"+c+"\"></i>"; }).join("");
     return '<button type="button" class="swatch'+(state.theme===th.id?" on":"")+'" data-theme-pick="'+th.id+'"><span class="dots">'+dots+'</span><span>'+th.label+"</span></button>";
+  }).join("");
+  $("seasonList").innerHTML=SEASONS.map(function(sn){
+    return '<button type="button" class="season-pick'+(state.season===sn.id?" on":"")+'" data-season-pick="'+sn.id+'"><i class="ico '+sn.id+'"></i><span>'+sn.label+"</span></button>";
   }).join("");
   $("sceneList").innerHTML=CONFIG.scenes.map(function(s){
     return '<button type="button" class="chip'+(state.scene===s.id?" on":"")+'" data-scene-pick="'+s.id+'">'+s.label+"</button>";
@@ -712,11 +825,11 @@ function readCreateForm(){
   state.slotDate=$("inDate").value||"";
   state.slotTime=$("inTime").value||"";
 }
-function renderSigs(){
-  var list=(CONFIG.dishes||[]).filter(function(d){return d.group==="signature";});
-  $("sigList").innerHTML=list.map(function(d){
-    return '<div class="sig">'+(d.tag?'<div class="sig-tag">'+esc(d.tag)+"</div>":"")+'<div class="sig-name">'+esc(d.name)+"</div></div>";
-  }).join("");
+function renderSigs(){ /* signature dishes are marked in the full menu */ }
+function dishTagClass(tag){
+  if(tag==="主推") return "dtag tag-push";
+  if(tag) return "dtag tag-sig";
+  return "";
 }
 function renderDishes(){
   if(!state.reply.dishes) state.reply.dishes=[];
@@ -728,7 +841,8 @@ function renderDishes(){
     items.forEach(function(d){
       var on=state.reply.dishes.indexOf(d.id)>=0;
       var meta=dishMeta(d);
-      html+='<button type="button" class="dish-row'+(on?" on":"")+'" data-dish="'+d.id+'"><span class="tick"></span><span><span class="dn">'+esc(d.name)+"</span>"+(d.tag?'<span class="dtag">'+esc(d.tag)+"</span>":"")+(meta?'<div class="dmeta">'+esc(meta)+"</div>":"")+(d.desc?'<div class="ddesc">'+esc(d.desc)+"</div>":"")+"</span></button>";
+      var tag=d.tag?('<span class="'+dishTagClass(d.tag)+'">'+esc(d.tag)+"</span>"):"";
+      html+='<button type="button" class="dish-row'+(on?" on":"")+'" data-dish="'+d.id+'"><span class="tick"></span><span><span class="name-line"><span class="dn">'+esc(d.name)+"</span>"+tag+"</span>"+(meta?'<div class="dmeta">'+esc(meta)+"</div>":"")+(d.desc?'<div class="ddesc">'+esc(d.desc)+"</div>":"")+"</span></button>";
     });
   });
   $("dishList").innerHTML=html;
@@ -766,12 +880,71 @@ function fillLetter(){
   syncAmbienceLayer();
   applyTheme();
 }
+function giftKindEffective(){
+  var kind=state.ambience||"";
+  var season=state.season||"";
+  if(season==="winter" && kind==="snow") return "";
+  if(season==="spring" && kind==="petals") return "";
+  return kind;
+}
 function syncAmbienceLayer(){
   var amb=$("ambience");
   if(!amb) return;
-  var kind=state.ambience||"";
+  var kind=giftKindEffective();
   amb.className="ambience"+(kind?" "+kind:"");
   amb.classList.toggle("hidden", !kind||!state.opened);
+}
+function syncSeasonLayer(){
+  var layer=$("seasonLayer"), bits=$("seasonBits");
+  if(!layer||!bits) return;
+  var season=getSeason(state.season).id;
+  if(bits.getAttribute("data-built")===season && bits.childNodes.length) return;
+  bits.setAttribute("data-built", season);
+  bits.innerHTML="";
+  var shot=document.documentElement.classList.contains("shot");
+  var typog=document.documentElement.classList.contains("shot-typog");
+  if(typog) return;
+  var n=season==="summer"?14:season==="winter"?20:season==="spring"?18:16;
+  var frag=document.createDocumentFragment();
+  for(var i=0;i<n;i++){
+    var el=document.createElement("span");
+    var cls="sbit";
+    if(season==="spring") cls+=" sbit-petal"+(i%3===1?" p2":i%3===2?" p3":"");
+    else if(season==="summer") cls+=" sbit-mote";
+    else if(season==="autumn") cls+=(i%3===0?" sbit-ginkgo":" sbit-maple")+(i%5===0?" "+(i%3===0?"g2":"m"+(1+i%3)):"");
+    else cls+=" sbit-snow";
+    el.className=cls;
+    var delay, dur;
+    if(shot){
+      delay= -(2+Math.random()*8);
+      dur= season==="summer"?(6+Math.random()*5):(8+Math.random()*6);
+    }else{
+      delay= Math.random()*(season==="summer"?8:10);
+      dur= season==="summer"?(7+Math.random()*6):(9+Math.random()*8);
+    }
+    el.style.left=(Math.random()*100)+"%";
+    if(season==="summer") el.style.top=(8+Math.random()*70)+"%";
+    if(season==="winter"){
+      var sz=(4+Math.random()*6).toFixed(1)+"px";
+      el.style.width=sz; el.style.height=sz;
+    }
+    if(season==="autumn"){
+      var leaf=(14+Math.random()*10).toFixed(1)+"px";
+      el.style.width=leaf; el.style.height=leaf;
+    }
+    if(season==="spring"){
+      el.style.width=(16+Math.random()*10).toFixed(1)+"px";
+      el.style.height=(12+Math.random()*8).toFixed(1)+"px";
+    }
+    el.style.animationDelay=delay+"s";
+    el.style.animationDuration=dur+"s";
+    el.style.setProperty("--drift",(Math.random()*70-35).toFixed(1)+"px");
+    el.style.setProperty("--rot",(140+Math.random()*200).toFixed(0)+"deg");
+    el.style.setProperty("--scale",(0.7+Math.random()*0.7).toFixed(2));
+    el.style.setProperty("--op",(0.55+Math.random()*0.3).toFixed(2));
+    frag.appendChild(el);
+  }
+  bits.appendChild(frag);
 }
 function clearAmbienceBits(){
   var amb=$("ambience");
@@ -783,7 +956,7 @@ function clearAmbienceBits(){
 function playAmbienceBurst(){
   syncAmbienceLayer();
   clearAmbienceBits();
-  var kind=state.ambience||"";
+  var kind=giftKindEffective();
   if(!kind||!state.opened) return;
   if(kind==="dawn"||kind==="dusk") return;
   if(document.documentElement.classList.contains("shot")) return;
@@ -993,16 +1166,32 @@ function onReady(){
   if(params.get("ambience")||params.get("amb")) state.ambience=params.get("ambience")||params.get("amb");
   if(params.get("music")) state.music=params.get("music");
   if(params.get("theme")) state.theme=params.get("theme");
+  if(params.get("season")) state.season=SEASON_FROM[params.get("season")]||params.get("season");
+  if(!state.season) state.season=currentSeason();
   if(!state.music) state.music=defaultMusic(state.scene,state.occasion);
   if(!state.message) state.message=sceneMessage(state.scene,state.occasion);
 
   var shot=params.get("shot"), mode=params.get("mode");
   /* seed a fixed time for screenshots if missing */
   if(shot && !state.slotDate){ state.slotDate="2026-11-21"; state.slotTime="18:30"; }
+  if(shot && params.get("atmos")!=="1") document.documentElement.classList.add("shot-typog");
 
   fillCreateForm(); fillLetter(); renderSigs(); renderDishes();
 
   if(shot==="create"||mode==="create"){ fillCreateForm(); showView("create"); }
+  else if(shot==="menu"){
+    if(!state.to||state.to==="你") state.to="晚晚";
+    if(!state.from||state.from==="我") state.from="阿途";
+    if(!state.reply.dishes.length) state.reply.dishes=["sig-suan-tang-yu"];
+    fillLetter(); renderDishes(); openLetter(); showView("envelope");
+    setTimeout(function(){
+      var blk=$("whenBlock");
+      if(blk){
+        var y=blk.getBoundingClientRect().top+window.scrollY-24;
+        window.scrollTo(0, Math.max(0,y));
+      }
+    }, 40);
+  }
   else if(shot==="choose"){
     if(!state.reply.dishes.length) state.reply.dishes=["sig-suan-tang-yu","sig-bohe-paigu","pop-zhaxiangua"];
     renderDishes(); openLetter(); showView("envelope");
@@ -1106,6 +1295,12 @@ function bindEvents(){
     }
     t=e.target.closest("[data-theme-pick]");
     if(t){ state.theme=t.getAttribute("data-theme-pick")||"jacaranda"; renderChips(); applyTheme(); return; }
+    t=e.target.closest("[data-season-pick]");
+    if(t){
+      state.season=t.getAttribute("data-season-pick")||currentSeason();
+      var bits=$("seasonBits"); if(bits) bits.setAttribute("data-built","");
+      renderChips(); applyTheme(); return;
+    }
     t=e.target.closest("[data-flower]"); if(t){ state.flower=t.getAttribute("data-flower")||""; renderChips(); return; }
     t=e.target.closest("[data-pet]"); if(t){ state.pet=t.getAttribute("data-pet")||""; renderChips(); return; }
     t=e.target.closest("[data-amb]"); if(t){ state.ambience=t.getAttribute("data-amb")||""; renderChips(); return; }
