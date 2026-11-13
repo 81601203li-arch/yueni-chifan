@@ -54,7 +54,8 @@ button{cursor:pointer}
 .theme-jacaranda[data-scene="self"],.phone.theme-jacaranda[data-scene="self"]{--accent:#9B8FD9}
 .view{padding:28px 24px 28px;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;position:relative;z-index:1}
 html.shot .view{animation:none}
-html.shot .pet-img.idle,html.shot .ambience.snow::before,html.shot .ambience.rain::before,html.shot .ambience.petals::before{animation:none !important}
+html.shot .pet-img.idle{animation:none !important}
+html.shot .ambience .bit{display:none !important}
 .view:not(.hidden){animation:fade .35s ease both}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .kicker{font-size:12px;letter-spacing:.28em;color:var(--accent);text-align:center}
@@ -138,17 +139,28 @@ html.shot .toast{display:none}
 .summary{border:1px solid var(--line);padding:12px;font-size:13px;line-height:1.8;margin-top:12px;white-space:pre-wrap;color:var(--ink)}
 .ph{color:var(--muted)}
 .slot-edit{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ambience{pointer-events:none;position:absolute;inset:0;z-index:0;overflow:hidden}
+.ambience{pointer-events:none;position:absolute;inset:0;z-index:5;overflow:hidden}
 .ambience.dawn{background:radial-gradient(ellipse at 50% 120%,rgba(255,196,140,.2),transparent 60%)}
 .ambience.dusk{background:radial-gradient(ellipse at 80% 0,rgba(120,80,160,.12),transparent 55%),linear-gradient(180deg,transparent,rgba(90,50,80,.08))}
-.ambience.star{background-image:radial-gradient(#8A7FD0 1px,transparent 1.2px);background-size:40px 40px;opacity:.45}
-.ambience.snow::before,.ambience.petals::before,.ambience.rain::before{
-  content:"";position:absolute;inset:-20% 0 0;
-  background-image:radial-gradient(#fff 1.2px,transparent 1.4px);
-  background-size:30px 40px;animation:fall 14s linear infinite;opacity:.5}
-.ambience.rain::before{background-image:linear-gradient(180deg,transparent 0,rgba(75,63,140,.28) 80%,transparent 100%);background-size:6px 18px;opacity:.35;animation-duration:1.6s}
-.ambience.petals::before{background-image:radial-gradient(ellipse closest-side,rgba(138,127,208,.5) 40%,transparent 70%);background-size:18px 12px;opacity:.4}
-@keyframes fall{to{transform:translateY(30%)}}
+.ambience .bit{position:absolute;top:-8%;pointer-events:none;animation:bitFall linear forwards;will-change:transform,opacity}
+.bit-petals{width:14px;height:10px;border-radius:80% 0 80% 0;background:var(--accent)}
+.bit-snow{width:6px;height:6px;border-radius:50%;background:var(--ink);opacity:.4}
+.theme-blackgold .bit-snow,.theme-redgold .bit-snow{background:#F3E6C4}
+.bit-rain{width:1.5px;height:16px;border-radius:1px;background:var(--accent)}
+.bit-star{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);top:auto;animation-name:bitStar;animation-timing-function:ease-in-out}
+@keyframes bitFall{
+  0%{transform:translate3d(0,0,0) rotate(0) scale(var(--scale,1));opacity:0}
+  8%{opacity:.7}
+  80%{opacity:.4}
+  100%{transform:translate3d(var(--drift,0px),110vh,0) rotate(var(--rot,180deg)) scale(var(--scale,1));opacity:0}
+}
+@keyframes bitStar{
+  0%{opacity:0;transform:scale(.4)}
+  18%{opacity:.85;transform:scale(1)}
+  48%{opacity:.3}
+  72%{opacity:.8}
+  100%{opacity:0;transform:scale(.5)}
+}
 
   
 .theme-swatches{display:flex;flex-wrap:wrap;gap:12px 16px;margin:4px 0}
@@ -693,10 +705,59 @@ function fillLetter(){
   var fl=flowerLine(state.flower);
   $("flowerLine").textContent=fl;
   $("flowerLine").classList.toggle("hidden", !fl);
-  var amb=$("ambience");
-  amb.className="ambience"+(state.ambience?" "+state.ambience:"");
-  amb.classList.toggle("hidden", !state.ambience||!state.opened);
+  syncAmbienceLayer();
   applyTheme();
+}
+function syncAmbienceLayer(){
+  var amb=$("ambience");
+  if(!amb) return;
+  var kind=state.ambience||"";
+  amb.className="ambience"+(kind?" "+kind:"");
+  amb.classList.toggle("hidden", !kind||!state.opened);
+}
+function clearAmbienceBits(){
+  var amb=$("ambience");
+  if(!amb) return;
+  var bits=amb.querySelectorAll(".bit");
+  for(var i=0;i<bits.length;i++) bits[i].parentNode.removeChild(bits[i]);
+  clearTimeout(clearAmbienceBits._t);
+}
+function playAmbienceBurst(){
+  syncAmbienceLayer();
+  clearAmbienceBits();
+  var kind=state.ambience||"";
+  if(!kind||!state.opened) return;
+  if(kind==="dawn"||kind==="dusk") return;
+  if(document.documentElement.classList.contains("shot")) return;
+  var amb=$("ambience");
+  var n=kind==="rain"?28:kind==="star"?16:22;
+  var frag=document.createDocumentFragment();
+  var maxEnd=0;
+  for(var i=0;i<n;i++){
+    var el=document.createElement("span");
+    el.className="bit bit-"+kind;
+    var delay=kind==="star"?Math.random()*0.9:Math.random()*1.5;
+    var dur=kind==="rain"?(1.1+Math.random()*0.7):kind==="star"?(2.2+Math.random()*1.4):(3.6+Math.random()*2.4);
+    maxEnd=Math.max(maxEnd, delay+dur);
+    el.style.left=(Math.random()*100)+"%";
+    if(kind==="star") el.style.top=(Math.random()*70)+"%";
+    el.style.animationDelay=delay+"s";
+    el.style.animationDuration=dur+"s";
+    el.style.setProperty("--drift",(Math.random()*48-24)+"px");
+    el.style.setProperty("--rot",(120+Math.random()*220)+"deg");
+    el.style.setProperty("--scale",(0.7+Math.random()*0.8).toFixed(2));
+    if(kind==="snow"){
+      var s=(5+Math.random()*5).toFixed(1)+"px";
+      el.style.width=s; el.style.height=s;
+    }
+    if(kind==="petals"){
+      el.style.width=(12+Math.random()*8).toFixed(1)+"px";
+      el.style.height=(9+Math.random()*6).toFixed(1)+"px";
+    }
+    frag.appendChild(el);
+  }
+  amb.appendChild(frag);
+  clearAmbienceBits._t=setTimeout(clearAmbienceBits, Math.ceil((maxEnd+0.25)*1000));
 }
 function openLetter(){
   if(!state.opened){
@@ -708,6 +769,7 @@ function openLetter(){
     renderDishes();
     $("noteInput").value=state.reply.note||"";
     if(state.pet){ var add=function(){ $("petDrop").classList.add("in"); }; if(document.documentElement.classList.contains("shot")) add(); else setTimeout(add, 80); }
+    playAmbienceBurst();
     playMusicBox(state.music);
     $("btnMute").classList.remove("hidden");
   }
