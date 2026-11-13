@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#F5F3FA">
+  <meta name="format-detection" content="telephone=yes">
+  <title>约你吃饭 · 锦途川滇</title>
+  <style>
+
+:root{
+  --bg:#F5F3FA;--paper:#FCFBFE;--ink:#25213A;--muted:#6F6A85;
+  --line:#E2DEEE;--accent:#8A7FD0;--primary:#4B3F8C;--tint:#E6E1F5;--on:#FFFFFF;
+  --serif:"Songti SC","STSong","Source Han Serif SC","Noto Serif CJK SC","SimSun",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:#E6E2F0;color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
+button,input,textarea{font:inherit;color:inherit;border:0;background:none}
+button{cursor:pointer}
+.hidden{display:none !important}
+.app{min-height:100vh;display:flex;justify-content:center}
+.phone{width:100%;max-width:430px;min-height:100vh;min-height:100dvh;background:var(--bg);position:relative;overflow:hidden}
+.phone[data-scene="family"]{--accent:#7B6BB8}
+.phone[data-scene="friend"]{--accent:#6E7BC4}
+.phone[data-scene="team"]{--accent:#5C5499}
+.phone[data-scene="self"]{--accent:#9B8FD9}
+.view{padding:28px 24px 28px;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;position:relative;z-index:1}
+html.shot .view{animation:none}
+html.shot .pet-img.idle,html.shot .ambience.snow::before,html.shot .ambience.rain::before,html.shot .ambience.petals::before{animation:none !important}
+.view:not(.hidden){animation:fade .35s ease both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.kicker{font-size:12px;letter-spacing:.28em;color:var(--accent);text-align:center}
+.display{font-family:var(--serif);font-weight:500;font-size:26px;text-align:center;margin:8px 0 0;letter-spacing:.04em;line-height:1.4}
+.sub{text-align:center;color:var(--muted);font-size:15px;line-height:1.8;margin:8px 0 0}
+.section{font-family:var(--serif);font-size:16px;margin:32px 0 12px;font-weight:500}
+.lbl{display:block;font-size:13px;letter-spacing:.14em;color:var(--muted);margin:24px 0 8px}
+.hint{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.6}
+.field{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;outline:none;border-radius:0}
+textarea.field,.area{border:1px solid var(--line);padding:12px;min-height:88px;resize:vertical;line-height:1.8}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;text-align:center;background:var(--primary);color:var(--on);letter-spacing:.12em;font-size:16px;line-height:1.3;padding:16px 0;margin-top:24px;min-height:48px;border-radius:0;text-decoration:none}
+.btn-ghost{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.btn-text{background:transparent;color:var(--muted);margin-top:8px;letter-spacing:.06em;font-size:15px;min-height:44px;padding:12px 0;border:0}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.row-2 .btn{margin-top:0}
+.foot{margin-top:auto;padding-top:16px;font-size:12px;color:var(--muted);text-align:center;line-height:1.8}
+.foot a{color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);padding:8px 14px;font-size:14px;background:transparent}
+.chip.on{border-color:var(--primary);color:var(--primary);background:var(--tint)}
+.card{border:1px solid var(--line);background:var(--paper);padding:24px 20px;margin:16px 0;box-shadow:0 8px 20px rgba(37,33,58,.04)}
+.card .mark{text-align:center;letter-spacing:.4em;font-size:12px;color:var(--muted)}
+.card h2{font-family:var(--serif);font-weight:500;text-align:center;font-size:22px;margin:8px 0 0}
+.card .pair{text-align:center;color:var(--accent);margin:8px 0 20px;font-size:13px}
+.card dl{margin:0;display:grid;grid-template-columns:52px 1fr;gap:6px 12px;font-size:13px}
+.card dt{color:var(--muted)}
+.card .vow{text-align:center;font-family:var(--serif);margin:12px 0 6px}
+.card .price-note{text-align:left;margin:4px 0 0;font-size:12px;color:var(--muted)}
+.meta{font-size:13px;color:var(--muted);margin-top:2px}
+.env{border:1px solid var(--line);background:var(--paper);padding:28px 24px;margin:16px 0 12px;box-shadow:0 8px 20px rgba(37,33,58,.04)}
+.env .rule{height:1px;background:var(--line)}
+.env-front .to{font-family:var(--serif);font-size:24px;text-align:center;margin:28px 0 16px;letter-spacing:.12em}
+.env-front .hint{text-align:center;font-size:13px;letter-spacing:.24em;color:var(--muted);margin-bottom:28px}
+.env-letter{animation:fade .45s ease both}
+.env-letter .to{font-family:var(--serif);font-size:16px;margin-bottom:16px}
+.env-letter .body{font-size:14px;line-height:2;margin:0}
+.env-letter .from{text-align:right;margin-top:24px;font-family:var(--serif);color:var(--accent)}
+.rest{text-align:center;font-size:13px;letter-spacing:.16em;color:var(--muted)}
+.motif{display:block;width:80px;height:64px;margin:8px auto 0;opacity:.4}
+.item{border-bottom:1px solid var(--line);padding:20px 0}
+.item .top{display:flex;justify-content:space-between;align-items:baseline}
+.item .name{font-family:var(--serif);font-size:17px}
+.item .st{font-size:12px;letter-spacing:.12em;color:var(--accent)}
+.item .im{font-size:13px;color:var(--muted);margin-top:4px}
+.item .reply{margin-top:10px;font-size:13px;line-height:1.8}
+.count{display:flex;justify-content:center;gap:24px;margin:4px 0 8px}
+.count b{display:block;font-family:var(--serif);font-size:24px;font-weight:500;text-align:center}
+.count span{display:block;font-size:12px;letter-spacing:.16em;color:var(--muted);text-align:center}
+.path{font-size:12px;color:var(--muted);word-break:break-all;line-height:1.6}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;font-size:12px;letter-spacing:.08em;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none;white-space:nowrap;max-width:90%}
+.toast.show{opacity:1}
+html.shot .toast{display:none}
+.mute{position:absolute;top:12px;right:16px;z-index:5;font-size:12px;color:var(--muted);letter-spacing:.08em;min-height:32px}
+.when-block{text-align:center;margin:24px 0 8px}
+.when-kicker{font-size:12px;letter-spacing:.28em;color:var(--accent)}
+.when-title{font-family:var(--serif);font-size:20px;margin-top:4px}
+.when-addr{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6}
+.sig-block{margin:16px 0 4px}
+.sig-kicker{text-align:center;font-size:12px;letter-spacing:.28em;color:var(--accent);margin-bottom:8px}
+.sigs{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.sig{padding:8px 0;border-bottom:1px solid var(--line)}
+.sig-tag{font-size:11px;letter-spacing:.16em;color:var(--accent)}
+.sig-name{font-family:var(--serif);font-size:15px;margin-top:2px;line-height:1.35}
+.price-note{text-align:center;font-size:12px;color:var(--muted);margin:8px 0 0}
+.price-note.left{text-align:left;margin:0 0 4px}
+.dish-row{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;padding:12px 0;border-bottom:1px solid var(--line)}
+.dish-row .tick{width:14px;height:14px;margin-top:5px;flex-shrink:0;border:1px solid rgba(75,63,140,.35);box-sizing:border-box}
+.dish-row.on .tick{background:var(--primary);border-color:var(--primary)}
+.dish-row .dn{font-family:var(--serif);font-size:16px;line-height:1.4}
+.dish-row .dtag{font-size:11px;letter-spacing:.12em;color:var(--accent);margin-left:8px}
+.dish-row .dmeta,.dish-row .ddesc{font-size:13px;color:var(--muted);margin-top:2px}
+.pet-drop{text-align:center;margin:16px 0 8px;opacity:0;transform:translateY(-8px);transition:all .5s ease}
+.pet-drop.in{opacity:1;transform:none}
+.pet-img{width:100px;height:100px;object-fit:contain}
+.pet-img.idle{animation:petIdle 2.6s ease-in-out infinite}
+@keyframes petIdle{0%,100%{transform:translateY(0)}40%{transform:translateY(-4px)}50%{opacity:.35}52%{opacity:1}}
+.pet-name,.pet-input{font-family:var(--serif);font-size:15px;text-align:center;margin-top:6px}
+.pet-input{border-bottom:1px solid var(--line);padding:6px 0;width:60%;margin:6px auto 0;display:block}
+.pet-line{font-size:12px;color:var(--muted);margin-top:4px}
+.flower-line{text-align:center;font-size:13px;color:var(--accent);margin:8px 0}
+.summary{border:1px solid var(--line);padding:12px;font-size:13px;line-height:1.8;margin-top:12px;white-space:pre-wrap;color:var(--ink)}
+.ph{color:var(--muted)}
+.slot-edit{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ambience{pointer-events:none;position:absolute;inset:0;z-index:0;overflow:hidden}
+.ambience.dawn{background:radial-gradient(ellipse at 50% 120%,rgba(255,196,140,.2),transparent 60%)}
+.ambience.dusk{background:radial-gradient(ellipse at 80% 0,rgba(120,80,160,.12),transparent 55%),linear-gradient(180deg,transparent,rgba(90,50,80,.08))}
+.ambience.star{background-image:radial-gradient(#8A7FD0 1px,transparent 1.2px);background-size:40px 40px;opacity:.45}
+.ambience.snow::before,.ambience.petals::before,.ambience.rain::before{
+  content:"";position:absolute;inset:-20% 0 0;
+  background-image:radial-gradient(#fff 1.2px,transparent 1.4px);
+  background-size:30px 40px;animation:fall 14s linear infinite;opacity:.5}
+.ambience.rain::before{background-image:linear-gradient(180deg,transparent 0,rgba(75,63,140,.28) 80%,transparent 100%);background-size:6px 18px;opacity:.35;animation-duration:1.6s}
+.ambience.petals::before{background-image:radial-gradient(ellipse closest-side,rgba(138,127,208,.5) 40%,transparent 70%);background-size:18px 12px;opacity:.4}
+@keyframes fall{to{transform:translateY(30%)}}
+
+  </style>
+</head>
+<body>
+
+<div class="app"><div class="phone" id="phone">
+  <button class="mute hidden" type="button" id="btnMute">八音盒</button>
+  <div class="ambience hidden" id="ambience"></div>
+
+<section class="view hidden" id="view-create">
+  <p class="kicker">发起</p>
+  <h1 class="display" id="createTitle">写一封邀请</h1>
+  <p class="sub" id="createSub">选定场景，写下已约定的赴约时间，发给对方即可。</p>
+  <label class="lbl">场景</label>
+  <div class="chips" id="sceneList"></div>
+  <label class="lbl">场合（可选）</label>
+  <div class="chips" id="occasionList"></div>
+  <div id="toField">
+    <label class="lbl" for="inTo">邀请谁</label>
+    <input class="field" id="inTo" maxlength="16" placeholder="例如：晚晚">
+  </div>
+  <label class="lbl" for="inFrom" id="fromLbl">你的署名</label>
+  <input class="field" id="inFrom" maxlength="12" placeholder="例如：阿途">
+  <label class="lbl" for="inMsg">想说的话</label>
+  <textarea class="field area" id="inMsg" maxlength="200"></textarea>
+  <h2 class="section">赴约时间</h2>
+  <p class="hint">请填写已经约好的日期与时间，邀请函上只写这一个时刻。</p>
+  <div class="slot-edit">
+    <input class="field" id="inDate" type="date" aria-label="日期">
+    <input class="field" id="inTime" type="time" aria-label="时间">
+  </div>
+  <h2 class="section">到店备花</h2>
+  <p class="hint">鲜花与永生花，将请餐厅到店备好。其余心意均为虚拟。</p>
+  <div class="chips" id="flowerList"></div>
+  <h2 class="section">送一只电子宠物</h2>
+  <p class="hint">山海经十二星座小神兽，邀对方领养，会陪着等到见面那天。</p>
+  <div class="chips" id="petList"></div>
+  <h2 class="section">席间光景</h2>
+  <p class="hint">虚拟动画，点开信封时轻轻落下。</p>
+  <div class="chips" id="ambList"></div>
+  <h2 class="section">八音盒</h2>
+  <p class="hint">轻触信封后响起，可随时静音。默认随场景挑选。</p>
+  <div class="chips" id="musicList"></div>
+  <button class="btn" type="button" id="btnGen">生成邀请链接</button>
+  <button class="btn btn-ghost" type="button" id="btnCopy">复制链接</button>
+  <button class="btn btn-text" type="button" id="btnPreview">预览对方所见</button>
+  <button class="btn btn-text" type="button" id="btnInbox">我发出的邀请</button>
+  <p class="path" id="shareUrl"></p>
+  <p class="foot">这是一份可离线打开的邀请函。把链接或二维码发给对方即可。对方赴约后，会得到一条回复链接，请 TA 发回来。</p>
+</section>
+
+<section class="view" id="view-envelope">
+  <p class="kicker" id="envKicker">约你吃饭</p>
+  <h1 class="display" id="envTitle">有一封信，只写给你</h1>
+  <p class="sub" id="envSub">轻触展开</p>
+  <img class="motif" src="images/jacaranda.png" alt="">
+  <article class="env" id="envelope" role="button" tabindex="0" aria-label="展开邀请">
+    <div class="env-front" id="envFront">
+      <div class="rule"></div>
+      <div class="to" id="envTo">致 你</div>
+      <div class="hint">轻触展开</div>
+      <div class="rule"></div>
+    </div>
+    <div class="env-letter hidden" id="envLetter">
+      <div class="to" id="letterTo"></div>
+      <p class="body" id="letterBody"></p>
+      <div class="from" id="letterFrom"></div>
+    </div>
+  </article>
+  <p class="rest">锦途川滇  ·  石家庄万象天成</p>
+  <div class="hidden" id="afterOpen">
+    <div class="when-block" id="whenBlock">
+      <div class="when-kicker">赴约时间</div>
+      <div class="when-title" id="whenTitle"></div>
+      <div class="when-addr" id="whenAddr"></div>
+    </div>
+    <div class="sig-block">
+      <p class="sig-kicker">招牌</p>
+      <div class="sigs" id="sigList"></div>
+      <p class="price-note">价格以店内为准</p>
+    </div>
+    <div class="pet-drop" id="petDrop">
+      <img class="pet-img idle" id="petImg" alt="">
+      <div class="pet-name" id="petLabel"></div>
+      <div class="pet-line">它会陪你等到见面那天</div>
+    </div>
+    <p class="flower-line hidden" id="flowerLine"></p>
+    <h2 class="section">想吃的菜（可选）</h2>
+    <p class="price-note left">可多选。价格以店内为准。</p>
+    <div id="dishList"></div>
+    <label class="lbl" id="noteLbl" for="noteInput">给对方的一句</label>
+    <textarea class="field area" id="noteInput" maxlength="120" placeholder="也可以写上忌口。"></textarea>
+    <button class="btn" type="button" id="btnAccept">我会准时赴约</button>
+    <button class="btn-text" type="button" id="btnTimeChange">时间有变，跟TA说一声</button>
+    <div class="hidden" id="changeBox">
+      <textarea class="field area" id="changeInput" maxlength="120" placeholder="简单说一声你的时间安排。"></textarea>
+      <button class="btn btn-ghost" type="button" id="btnSendChange">发出说明</button>
+    </div>
+  </div>
+  <button class="btn btn-ghost" type="button" id="btnToCreate">写一封邀请</button>
+</section>
+
+<section class="view hidden" id="view-confirm">
+  <p class="kicker" id="confirmKicker">已记下</p>
+  <h1 class="display" id="confirmTitle"></h1>
+  <p class="sub" id="confirmSub"></p>
+  <article class="card" id="datingCard">
+    <p class="mark">赴约卡</p>
+    <h2>锦途川滇</h2>
+    <p class="pair" id="cardPair"></p>
+    <dl id="cardDl"></dl>
+    <p class="vow" id="cardVow"></p>
+  </article>
+  <div class="pet-drop in hidden" id="confirmPet">
+    <img class="pet-img idle" id="cPetImg" alt="">
+    <input class="pet-input" id="cPetName" maxlength="12" placeholder="给它取个名字">
+    <div class="pet-line">它会陪你等到见面那天</div>
+  </div>
+  <p class="flower-line hidden" id="cFlower"></p>
+  <p class="sub" id="cdWrap">距见面</p>
+  <div class="count" id="countBox">
+    <div><b id="cdD">0</b><span>日</span></div>
+    <div><b id="cdH">0</b><span>时</span></div>
+    <div><b id="cdM">0</b><span>分</span></div>
+    <div><b id="cdS">0</b><span>秒</span></div>
+  </div>
+  <div class="row-2">
+    <a class="btn btn-ghost" id="btnNav" target="_blank" rel="noopener">导航</a>
+    <a class="btn" href="tel:15100180988">致电餐厅</a>
+  </div>
+  <div id="replyShare">
+    <button class="btn btn-ghost" type="button" id="btnCopyReply">复制回复，发回给TA</button>
+    <div class="summary" id="replySummary"></div>
+  </div>
+  <p class="foot" id="footConfirm"></p>
+</section>
+
+<section class="view hidden" id="view-inbox">
+  <p class="kicker">发起人</p>
+  <h1 class="display">我发出的邀请</h1>
+  <p class="sub" id="inboxHint">本地预览。对方把回复链接发回来后，可在此查看。</p>
+  <div id="inboxList"></div>
+  <button class="btn" type="button" id="btnNew">再写一封</button>
+</section>
+
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+var CONFIG = {"restaurant": {"name": "锦途川滇•融合菜（万象天成店）", "shortName": "锦途川滇", "slogan": "味承川滇，艺续非遗", "city": "石家庄", "area": "万象天成", "address": "石家庄市桥西区裕华西路15号万象天成广场二层216B", "phone": "15100180988", "hours": "营业时间待填", "priceLevel": "¥65/人", "rating": 4.7, "ratingSource": "大众点评", "category": "云南菜|滇菜", "dianpingUrl": "https://m.dianping.com/shopinfo/jnaL1i3tdyW4JGQG", "meituanUrl": "http://dpurl.cn/BfCg1kTz", "latitude": 38.0366, "longitude": 114.4804, "coordVerified": false, "coordNote": "待核实：万象天成广场大致坐标，非 216B 精确点", "bookingNote": "本页只收集赴约意向，不直接完成订位。最终订位请致电餐厅确认：15100180988。", "vibe": "不必远赴西南，也能坐进滇风里。梁间悬着甲马布幡，席间有瓦猫守着，川渝的鲜香与滇式的清鲜在同一张桌上相遇。", "highlights": [{"title": "川渝鲜香", "desc": "遇见滇式清鲜，还原山野本真风味"}, {"title": "席间见非遗", "desc": "用餐时可遇傩舞表演"}, {"title": "一步一景", "desc": "梁间甲马布幡，席间瓦猫、木刻与陶土"}, {"title": "可带走的滇韵", "desc": "前厅文创：大理扎染、苗族银饰、植物手作与寺庙文创"}]}, "defaultScene": "lover", "occasions": [{"id": "birthday", "label": "生辰", "kicker": "生辰快乐", "line": "把生辰的一点暖意，放进这顿饭里。", "selfLine": "这一顿，给自己过生辰。"}, {"id": "anniversary", "label": "纪念日", "kicker": "纪念日", "line": "把这个日子，轻轻记在这顿饭上。"}, {"id": "thanks", "label": "感谢", "kicker": "想说谢谢", "line": "这顿饭，想先说一句谢谢。"}, {"id": "missyou", "label": "就想见你", "kicker": "就想见你", "line": "没有别的理由，就想见你。"}], "scenes": [{"id": "lover", "label": "恋人", "greeting": "亲爱的", "opening": "有一封信，只写给你", "openHint": "轻触展开", "openedTitle": "这顿饭，只为你预留", "openedSub": "{from} 想邀你，把一段好时光，慢慢吃完", "defaultMessage": "这一桌我先替你留了。石家庄也能遇见川滇的味道：花椒是热的，山野是鲜的，都想和你慢慢吃。这顿饭，只为你预留。", "confirmTitle": "你说好了，这一桌就亮起来了", "confirmSub": "可以留下这张赴约卡", "cardVow": "这顿饭，只为你预留。", "envelopeHint": "这顿饭，只为你预留", "enterCta": "我会准时赴约", "chooseSub": "这桌只等你回一声「好」。", "pairText": "{from} 邀 {to} 共进一餐", "multi": false, "accent": "#8A7FD0"}, {"id": "family", "label": "家人", "greeting": "亲爱的", "opening": "想把这张桌子，留给家人", "openHint": "轻触展开", "openedTitle": "这顿饭，等我们围坐", "openedSub": "挑个日子，把想念摆上桌", "defaultMessage": "想请家里人，来石家庄万象天成，围坐吃一顿热乎的川滇味道。灯还暖着，位子也留好了。这顿饭，等我们一起到齐。", "confirmTitle": "家里的位子，都给你亮着", "confirmSub": "留下这张赴约卡，留给围坐的那一刻", "cardVow": "这顿饭，等我们围坐。", "envelopeHint": "这顿饭，等我们围坐", "enterCta": "我会准时赴约", "chooseSub": "哪一顿，想把家人轻轻聚齐。", "pairText": "{from} 邀 {to}，回家吃饭", "multi": false, "accent": "#7B6BB8"}, {"id": "friend", "label": "朋友", "greeting": "", "opening": "想把这顿饭，交给我们", "openHint": "轻触展开", "openedTitle": "这桌先给你留着", "openedSub": "有些话，适合边吃边说", "defaultMessage": "想请你来石家庄，一起吃顿川滇。花椒是热的，话可以慢慢说。这桌我先占下，就等你来。", "confirmTitle": "你一说好，这一桌就成了局", "confirmSub": "留下这张饭局卡", "cardVow": "这桌先给你留着。", "envelopeHint": "这桌先给你留着", "enterCta": "我会准时赴约", "chooseSub": "这桌只等你回一声「好」。", "pairText": "{from} 邀 {to} 吃一顿", "multi": false, "accent": "#6E7BC4"}, {"id": "team", "label": "团建", "greeting": "亲爱的各位", "opening": "这一桌，想请大家一起到", "openHint": "轻触展开", "openedTitle": "这桌留给我们这支队伍", "openedSub": "{from} 想请大家，把步伐放慢，一起吃顿热饭", "defaultMessage": "想请大家来锦途川滇，把事情暂时放下，围着一桌川滇味道慢慢吃。位子已留，等我们到齐。", "confirmTitle": "这一桌，等大家到齐", "confirmSub": "把这支队伍轻轻点齐", "cardVow": "位子已留，等我们到齐。", "envelopeHint": "这桌留给我们这支队伍", "enterCta": "我会准时赴约", "chooseSub": "选一个大家都方便的时刻。", "pairText": "{from} 邀大家，一起吃饭", "multi": true, "accent": "#5C5499"}, {"id": "self", "label": "约自己", "greeting": "亲爱的自己", "opening": "这一封信，写给自己", "openHint": "轻触展开", "openedTitle": "这一顿，留给认真生活的自己", "openedSub": "今天，好好陪自己吃一顿", "defaultMessage": "这一顿，留给认真生活的自己。不必等谁来约。花椒是热的，山野是鲜的，位子先给你自己留着。慢慢吃，也算好好待自己一次。", "confirmTitle": "你对自己，守了这一约", "confirmSub": "留下这张给自己的赴约卡", "cardVow": "这一顿，留给认真生活的自己。", "envelopeHint": "这一顿，留给认真生活的自己", "enterCta": "我会准时赴约", "chooseSub": "选一个只属于你的时刻。把这顿饭，郑重地留给自己。", "pairText": "给自己的约定", "multi": false, "self": true, "accent": "#9B8FD9"}], "dishesReady": true, "priceNote": "价格以店内为准", "dishes": [{"id": "sig-suan-tang-yu", "name": "木姜子酸汤鱼", "price": 88, "tag": "主推", "group": "signature", "rec": 67, "desc": "独家秘制，活鱼现杀，新鲜现做"}, {"id": "sig-bohe-paigu", "name": "薄荷凤梨炸排骨", "price": 69, "tag": "招牌", "group": "signature", "rec": 20, "desc": "油而不腻，排骨，热油烹炸"}, {"id": "sig-nanmi-chicken", "name": "喃咪酱炙烤鸡", "price": 62, "tag": "招牌", "group": "signature", "rec": 0, "desc": "鲜美多汁，鸡肉，炭火烧烤"}, {"id": "sig-daiwei-fish", "name": "傣味手撕鱼", "price": 88, "tag": "招牌", "group": "signature", "rec": 20, "desc": "酸甜可口，活鱼现杀，热油烹炸"}, {"id": "pop-zhaxiangua", "name": "香炸菩提南瓜", "price": 22, "tag": "", "group": "popular", "rec": 38, "desc": ""}, {"id": "pop-shanye-ji", "name": "山野炒鸡", "price": 56, "tag": "", "group": "popular", "rec": 15, "desc": ""}, {"id": "pop-qiguo-jun", "name": "汽锅杂菌汤", "price": null, "tag": "", "group": "popular", "rec": 13, "desc": ""}, {"id": "pop-guoba-tudou", "name": "锅巴土豆", "price": 22, "tag": "", "group": "popular", "rec": 13, "desc": ""}, {"id": "pop-qicai-shala", "name": "七彩沙拉", "price": 26, "tag": "", "group": "popular", "rec": 11, "desc": ""}, {"id": "pop-xiandanhuang-gua", "name": "咸蛋黄焗云南菩提南瓜", "price": 46, "tag": "", "group": "popular", "rec": 8, "desc": ""}, {"id": "pop-daiwei-beef", "name": "傣味碎牛肉", "price": 58, "tag": "", "group": "popular", "rec": 6, "desc": ""}, {"id": "pop-zisu-niwa", "name": "紫苏牛蛙", "price": 52, "tag": "", "group": "popular", "rec": 5, "desc": ""}, {"id": "pop-xuanwei-rou", "name": "宣威小炒肉", "price": 42, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-bohe-juan", "name": "薄荷牛肉卷", "price": 48, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-maoxuewang", "name": "彩云南茉莉香毛血旺", "price": 68, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-lawei-fan", "name": "腊味萃饭", "price": 25, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-huasheng", "name": "云南七彩花生", "price": 22, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-daiwei-jijiao", "name": "傣味捲鸡脚", "price": 46, "tag": "", "group": "popular", "rec": 2, "desc": ""}, {"id": "more-bxl-beef", "name": "百香果酸汤牛肉", "price": 78, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-youqiang-xia", "name": "版纳油炝虾", "price": 68, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-ningmeng-xia", "name": "柠檬撒撇虾", "price": 88, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-xiangmao-steak", "name": "香茅凤梨蜜汁小牛排", "price": 98, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-laxiang-niu", "name": "辣爆牛胸口", "price": 68, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-mijiu-rou", "name": "云南米酒烧肉", "price": 58, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-juhuacai", "name": "清炒菊花菜", "price": 38, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-meigui-buding", "name": "玫瑰鲜奶奶布", "price": 35, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-luoshen-cha", "name": "洛神玫瑰茶", "price": 22, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-qingti", "name": "青提小麦草", "price": 22, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-bala", "name": "手打芭乐", "price": 22, "tag": "", "group": "more", "rec": 0, "desc": ""}], "dishGroups": [{"id": "signature", "label": "招牌"}, {"id": "popular", "label": "大家都爱"}, {"id": "more", "label": "更多"}], "flavorPreferences": [{"id": "chuan", "label": "更想吃川渝鲜香"}, {"id": "dian", "label": "更想吃滇式清鲜"}, {"id": "both", "label": "两种都想尝尝"}, {"id": "later", "label": "到店再看菜单"}], "pets": [{"id": "aries", "sign": "白羊座", "name": "朱雀"}, {"id": "taurus", "sign": "金牛座", "name": "白泽"}, {"id": "gemini", "sign": "双子座", "name": "九尾狐"}, {"id": "cancer", "sign": "巨蟹座", "name": "蛟龙"}, {"id": "leo", "sign": "狮子座", "name": "麒麟"}, {"id": "virgo", "sign": "处女座", "name": "青鸾"}, {"id": "libra", "sign": "天秤座", "name": "凤皇"}, {"id": "scorpio", "sign": "天蝎座", "name": "烛龙"}, {"id": "sagittarius", "sign": "射手座", "name": "英招"}, {"id": "capricorn", "sign": "摩羯座", "name": "陆吾"}, {"id": "aquarius", "sign": "水瓶座", "name": "文鳐鱼"}, {"id": "pisces", "sign": "双鱼座", "name": "陵鱼"}], "flowers": [{"id": "", "label": "不必"}, {"id": "fresh", "label": "鲜花"}, {"id": "preserved", "label": "永生花"}], "ambiences": [{"id": "", "label": "不必"}, {"id": "snow", "label": "雪"}, {"id": "rain", "label": "雨"}, {"id": "dawn", "label": "朝阳"}, {"id": "dusk", "label": "黄昏"}, {"id": "star", "label": "星光"}, {"id": "petals", "label": "花雨"}], "tracks": [{"id": "gentle", "label": "温柔"}, {"id": "warm", "label": "温暖"}, {"id": "light", "label": "轻快"}, {"id": "festive", "label": "欢庆"}, {"id": "quiet", "label": "安静"}, {"id": "nostalgic", "label": "怀旧"}]};
+var MELODIES = {"gentle": {"bpm": 76, "beats": 12, "decay": 1.1, "notes": [[72, 0, 1.5], [76, 1.5, 1.5], [79, 3, 1.5], [76, 4.5, 1.5], [74, 6, 1], [77, 7, 1], [76, 8, 1], [74, 9, 1], [72, 10, 2]]}, "warm": {"bpm": 88, "beats": 8, "decay": 0.95, "notes": [[67, 0, 1], [71, 1, 1], [74, 2, 1], [71, 3, 1], [69, 4, 1], [66, 5, 1], [67, 6, 2], [62, 0, 2], [64, 4, 2]]}, "light": {"bpm": 112, "beats": 8, "decay": 0.5, "notes": [[84, 0, 0.5], [88, 0.5, 0.5], [91, 1, 0.5], [84, 1.5, 0.5], [86, 2, 0.5], [83, 2.5, 0.5], [84, 3, 0.5], [79, 3.5, 0.5], [81, 4, 0.5], [84, 4.5, 0.5], [88, 5, 0.5], [86, 5.5, 0.5], [84, 6, 0.5], [79, 6.5, 0.5], [84, 7, 1]]}, "festive": {"bpm": 110, "beats": 8, "decay": 0.6, "notes": [[72, 0, 0.5], [79, 0.5, 0.5], [84, 1, 0.75], [88, 1.75, 0.25], [91, 2, 0.5], [88, 2.5, 0.5], [86, 3, 0.5], [84, 3.5, 0.5], [79, 4, 0.5], [84, 4.5, 0.5], [88, 5, 0.5], [91, 5.5, 0.5], [88, 6, 0.5], [79, 6.5, 0.5], [84, 7, 1]]}, "quiet": {"bpm": 64, "beats": 8, "decay": 1.8, "notes": [[72, 0, 2.5], [76, 3, 2.5], [79, 5.5, 1.2], [72, 6.8, 1.2]]}, "nostalgic": {"bpm": 80, "beats": 8, "decay": 1.15, "notes": [[81, 0, 1], [76, 1, 1], [72, 2, 1], [76, 3, 1], [74, 4, 1], [71, 5, 1], [69, 6, 0.75], [72, 6.75, 1.25]]}};
+
+(function(){
+"use strict";
+var WEEK = "日一二三四五六";
+var STORE = "yueni_invites_v3";
+var MINE = "yueni_my_invite_ids";
+var state = {
+  view: "envelope", opened: false, id: "",
+  to: "你", from: "我", message: "", scene: "lover", occasion: "",
+  slotDate: "", slotTime: "",
+  flower: "", pet: "", ambience: "", music: "gentle", musicTouched: false,
+  reply: { dishes: [], note: "", petName: "", attending: true, timeChange: false },
+  countTimer: null
+};
+var audio = { ctx: null, muted: false, playing: false, timer: null, track: "gentle" };
+var $ = function(id){ return document.getElementById(id); };
+
+function getScene(id){
+  var list=CONFIG.scenes;
+  for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i];
+  return list[0];
+}
+function getOccasion(id){
+  if(!id) return null;
+  var list=CONFIG.occasions||[];
+  for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i];
+  return null;
+}
+function fillTemplate(text, vars){
+  return String(text||"").replace(/\{(\w+)\}/g, function(_,k){ return vars&&vars[k]!=null?vars[k]:""; });
+}
+function sceneMessage(sceneId, occasionId){
+  var s=getScene(sceneId), o=getOccasion(occasionId);
+  var msg=s.defaultMessage;
+  if(o){
+    var line=(s.self&&o.selfLine)?o.selfLine:o.line;
+    if(line&&msg.indexOf(line)<0) msg+=line;
+  }
+  return msg;
+}
+function isDefaultMessage(text){
+  var raw=String(text||"").trim();
+  if(!raw) return true;
+  for(var i=0;i<CONFIG.scenes.length;i++){
+    if(raw===CONFIG.scenes[i].defaultMessage) return true;
+    for(var j=0;j<(CONFIG.occasions||[]).length;j++){
+      if(raw===sceneMessage(CONFIG.scenes[i].id, CONFIG.occasions[j].id)) return true;
+    }
+  }
+  return false;
+}
+function defaultMusic(sceneId, occasionId){
+  if(occasionId==="birthday") return "festive";
+  if(occasionId==="anniversary") return "nostalgic";
+  if(sceneId==="family") return "warm";
+  if(sceneId==="friend") return "light";
+  if(sceneId==="team") return "festive";
+  if(sceneId==="self") return "quiet";
+  return "gentle";
+}
+function guessPeriod(time){
+  if(!time) return "";
+  var h=parseInt(String(time).split(":")[0],10);
+  if(isNaN(h)) return "";
+  return h<15?"午后":"晚饭";
+}
+function formatSlot(s){
+  if(!s||!s.date||!s.time) return {title:"时刻待定",meta:"",date:null};
+  var parts=String(s.date).split("-");
+  var dt=new Date(s.date+"T"+s.time+":00");
+  var week=!isNaN(dt.getTime())?WEEK.charAt(dt.getDay()):"";
+  var md=parts.length===3?Number(parts[1])+"月"+Number(parts[2])+"日":s.date;
+  return { title: md+(week?" 周"+week:""), meta:(s.period||guessPeriod(s.time))+" · "+s.time, date: isNaN(dt.getTime())?null:dt };
+}
+function findPet(id){
+  var list=CONFIG.pets||[];
+  for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i];
+  return null;
+}
+function flowerLine(id){
+  if(id==="fresh") return "到店备花：鲜花";
+  if(id==="preserved") return "到店备花：永生花";
+  return "";
+}
+function findDish(id){
+  var list=CONFIG.dishes||[];
+  for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i];
+  return null;
+}
+function formatDishLine(d){ if(!d) return ""; return (d.price!=null&&d.price!=="")?d.name+"  ¥"+d.price:d.name; }
+function selectedDishLines(ids){ return (ids||[]).map(findDish).filter(Boolean).map(formatDishLine); }
+function dishMeta(d){
+  var bits=[];
+  if(d.price!=null&&d.price!=="") bits.push("¥"+d.price);
+  if(d.rec) bits.push(d.rec+"人推荐");
+  return bits.join("  ·  ");
+}
+function currentSlot(){
+  if(!state.slotDate||!state.slotTime) return null;
+  return {id:"s1",date:state.slotDate,time:state.slotTime,period:guessPeriod(state.slotTime)};
+}
+function esc(s){ return String(s||"").replace(/[&<>"]/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[c];}); }
+
+/* ---- URL codec (utf8 base64url, prefix b) ---- */
+function b64urlEnc(str){
+  var bytes=unescape(encodeURIComponent(str));
+  var b=btoa(bytes).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+  return b;
+}
+function b64urlDec(s){
+  s=s.replace(/-/g,"+").replace(/_/g,"/");
+  while(s.length%4) s+="=";
+  return decodeURIComponent(escape(atob(s)));
+}
+function compactInv(){
+  return {
+    t:state.to,f:state.from,m:state.message,s:state.scene,o:state.occasion||"",
+    d:state.slotDate,ti:state.slotTime,fl:state.flower||"",p:state.pet||"",
+    a:state.ambience||"",u:state.music||"",id:state.id||""
+  };
+}
+function applyCompactInv(c){
+  if(!c) return;
+  state.to=c.t||"你"; state.from=c.f||"我"; state.message=c.m||"";
+  state.scene=c.s||"lover"; state.occasion=c.o||"";
+  state.slotDate=c.d||""; state.slotTime=c.ti||"";
+  state.flower=c.fl||""; state.pet=c.p||""; state.ambience=c.a||"";
+  state.music=c.u||defaultMusic(state.scene,state.occasion);
+  state.id=c.id||state.id||"";
+}
+function compactReply(){
+  return { at:state.reply.attending?1:0, tc:state.reply.timeChange?1:0, n:state.reply.note||"", ds:state.reply.dishes||[], pn:state.reply.petName||"" };
+}
+function applyCompactReply(r){
+  if(!r) return;
+  state.reply.attending=!!r.at; state.reply.timeChange=!!r.tc;
+  state.reply.note=r.n||""; state.reply.dishes=r.ds||[]; state.reply.petName=r.pn||"";
+}
+function encodePayload(obj){ return "b"+b64urlEnc(JSON.stringify(obj)); }
+function decodePayload(s){
+  if(!s) return null;
+  try{
+    if(s.charAt(0)==="b") return JSON.parse(b64urlDec(s.slice(1)));
+    return JSON.parse(b64urlDec(s));
+  }catch(e){ return null; }
+}
+function pageBase(){
+  return location.href.split("#")[0].split("?")[0];
+}
+function inviteShareUrl(){ return pageBase()+"#p="+encodePayload({v:1,inv:compactInv()}); }
+function replyShareUrl(){ return pageBase()+"#p="+encodePayload({v:1,inv:compactInv(),reply:compactReply()}); }
+
+function toast(msg){
+  var el=$("toast"); el.textContent=msg; el.classList.add("show");
+  clearTimeout(toast._t); toast._t=setTimeout(function(){el.classList.remove("show");},2200);
+}
+function copyText(text, ok){
+  function fallback(){
+    var ta=document.createElement("textarea");
+    ta.value=text; ta.setAttribute("readonly",""); ta.style.position="fixed"; ta.style.left="-9999px";
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+    var ok2=false;
+    try{ ok2=document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    toast(ok2?(ok||"已复制"):"请长按复制");
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ toast(ok||"已复制"); }).catch(fallback);
+  } else fallback();
+}
+
+/* ---- local store ---- */
+function newId(){ return "inv_"+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function readDocs(){ try{return JSON.parse(localStorage.getItem(STORE)||"{}");}catch(e){return{};} }
+function writeDocs(d){ try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){} }
+function readMine(){ try{return JSON.parse(localStorage.getItem(MINE)||"[]");}catch(e){return[];} }
+function writeMine(a){ try{localStorage.setItem(MINE,JSON.stringify(a));}catch(e){} }
+function inviteDoc(){
+  var slot=currentSlot();
+  return {
+    id:state.id, to:state.to, from:state.from, message:state.message,
+    scene:state.scene, occasion:state.occasion,
+    slots:slot?[slot]:[], flower:state.flower, pet:state.pet,
+    ambience:state.ambience, music:state.music
+  };
+}
+function upsertMine(doc){
+  if(!doc.id) doc.id=newId();
+  var docs=readDocs(); docs[doc.id]=doc; writeDocs(docs);
+  var mine=readMine();
+  if(mine.indexOf(doc.id)<0){ mine.unshift(doc.id); writeMine(mine); }
+  state.id=doc.id;
+  return doc;
+}
+
+/* ---- music box (Web Audio, original motifs) ---- */
+function midiFreq(n){ return 440*Math.pow(2,(n-69)/12); }
+function playMusicBox(trackId){
+  if(audio.muted) return;
+  stopMusic(false);
+  audio.track=trackId||"gentle";
+  var spec=MELODIES[audio.track]; if(!spec) spec=MELODIES.gentle;
+  var AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC) return;
+  if(!audio.ctx) audio.ctx=new AC();
+  var ctx=audio.ctx;
+  if(ctx.state==="suspended") ctx.resume();
+  audio.playing=true;
+  var beat=60/spec.bpm;
+  var loop=spec.beats*beat;
+  function ring(freq, when, dur, decay){
+    var gain=ctx.createGain();
+    var master=ctx.createGain(); master.gain.value=0.07;
+    /* short delay as light reverb */
+    var delay=ctx.createDelay(); delay.delayTime.value=0.045;
+    var dg=ctx.createGain(); dg.gain.value=0.22;
+    gain.connect(master); master.connect(ctx.destination);
+    master.connect(delay); delay.connect(dg); dg.connect(ctx.destination);
+    var parts=[[1,1],[2,0.32],[2.76,0.16],[4.07,0.08]];
+    for(var i=0;i<parts.length;i++){
+      var o=ctx.createOscillator();
+      o.type="sine"; o.frequency.value=freq*parts[i][0];
+      var g=ctx.createGain(); g.gain.value=parts[i][1];
+      o.connect(g); g.connect(gain);
+      o.start(when); o.stop(when+dur+decay);
+    }
+    gain.gain.setValueAtTime(0, when);
+    gain.gain.linearRampToValueAtTime(0.9, when+0.008);
+    gain.gain.exponentialRampToValueAtTime(0.001, when+decay);
+  }
+  function schedule(at){
+    if(!audio.playing) return;
+    var t0=at;
+    for(var i=0;i<spec.notes.length;i++){
+      var n=spec.notes[i];
+      ring(midiFreq(n[0]), t0+n[1]*beat, n[2]*beat, spec.decay||1);
+    }
+    audio.timer=setTimeout(function(){ schedule(ctx.currentTime+0.02); }, loop*1000-20);
+  }
+  schedule(ctx.currentTime+0.02);
+}
+function stopMusic(reset){
+  audio.playing=false;
+  if(audio.timer){ clearTimeout(audio.timer); audio.timer=null; }
+  if(reset) audio.ctx=null;
+}
+function setMuted(v){
+  audio.muted=!!v;
+  if(audio.muted) stopMusic(false);
+  else if(state.opened) playMusicBox(state.music);
+  $("btnMute").textContent=audio.muted?"声音已关":"八音盒";
+}
+
+/* ---- render ---- */
+function applyTheme(){ $("phone").setAttribute("data-scene", state.scene||"lover"); }
+function showView(name){
+  state.view=name;
+  ["create","envelope","confirm","inbox"].forEach(function(v){
+    var el=$("view-"+v); if(el) el.classList.toggle("hidden", v!==name);
+  });
+  $("btnMute").classList.toggle("hidden", name==="create"||name==="inbox"||!state.opened);
+  if(name==="confirm") startCountdown(); else stopCountdown();
+  window.scrollTo(0,0);
+}
+function isSelf(){ return !!getScene(state.scene).self; }
+function renderChips(){
+  $("sceneList").innerHTML=CONFIG.scenes.map(function(s){
+    return '<button type="button" class="chip'+(state.scene===s.id?" on":"")+'" data-scene-pick="'+s.id+'">'+s.label+"</button>";
+  }).join("");
+  $("occasionList").innerHTML=(CONFIG.occasions||[]).map(function(o){
+    return '<button type="button" class="chip'+(state.occasion===o.id?" on":"")+'" data-occ-pick="'+o.id+'">'+o.label+"</button>";
+  }).join("");
+  $("flowerList").innerHTML=CONFIG.flowers.map(function(o){
+    return '<button type="button" class="chip'+(state.flower===o.id?" on":"")+'" data-flower="'+o.id+'">'+o.label+"</button>";
+  }).join("");
+  $("petList").innerHTML='<button type="button" class="chip'+(state.pet===""?" on":"")+'" data-pet="">不必</button>'+CONFIG.pets.map(function(o){
+    return '<button type="button" class="chip'+(state.pet===o.id?" on":"")+'" data-pet="'+o.id+'">'+o.sign+" "+o.name+"</button>";
+  }).join("");
+  $("ambList").innerHTML=CONFIG.ambiences.map(function(o){
+    return '<button type="button" class="chip'+(state.ambience===o.id?" on":"")+'" data-amb="'+o.id+'">'+o.label+"</button>";
+  }).join("");
+  $("musicList").innerHTML=CONFIG.tracks.map(function(o){
+    return '<button type="button" class="chip'+(state.music===o.id?" on":"")+'" data-music="'+o.id+'">'+o.label+"</button>";
+  }).join("");
+  var self=isSelf();
+  $("toField").classList.toggle("hidden", self);
+  $("createTitle").textContent=self?"写给自己":"写一封邀请";
+  $("createSub").textContent=self?"不必邀谁。写一封信，写下赴约时间，留下一张只属于你的赴约卡。":"选定场景，写下已约定的赴约时间，发给对方即可。";
+  applyTheme();
+}
+function fillCreateForm(){
+  $("inTo").value=(state.to==="你"||state.to==="大家"||state.to==="自己")?"":state.to;
+  $("inFrom").value=state.from==="我"?"":state.from;
+  if(!state.message) state.message=sceneMessage(state.scene,state.occasion);
+  $("inMsg").value=state.message;
+  $("inDate").value=state.slotDate||"";
+  $("inTime").value=state.slotTime||"";
+  if(!state.music) state.music=defaultMusic(state.scene,state.occasion);
+  renderChips();
+  if(state.id) $("shareUrl").textContent=inviteShareUrl();
+}
+function readCreateForm(){
+  var s=getScene(state.scene);
+  state.to=s.self?"自己":(($("inTo").value||(s.multi?"大家":"你")).trim());
+  state.from=($("inFrom").value||"我").trim();
+  state.message=($("inMsg").value||sceneMessage(state.scene,state.occasion)).trim();
+  state.slotDate=$("inDate").value||"";
+  state.slotTime=$("inTime").value||"";
+}
+function renderSigs(){
+  var list=(CONFIG.dishes||[]).filter(function(d){return d.group==="signature";});
+  $("sigList").innerHTML=list.map(function(d){
+    return '<div class="sig">'+(d.tag?'<div class="sig-tag">'+esc(d.tag)+"</div>":"")+'<div class="sig-name">'+esc(d.name)+"</div></div>";
+  }).join("");
+}
+function renderDishes(){
+  if(!state.reply.dishes) state.reply.dishes=[];
+  var html="";
+  (CONFIG.dishGroups||[]).forEach(function(g){
+    var items=(CONFIG.dishes||[]).filter(function(d){return d.group===g.id;});
+    if(!items.length) return;
+    html+='<h3 class="section" style="margin:20px 0 4px">'+esc(g.label)+"</h3>";
+    items.forEach(function(d){
+      var on=state.reply.dishes.indexOf(d.id)>=0;
+      var meta=dishMeta(d);
+      html+='<button type="button" class="dish-row'+(on?" on":"")+'" data-dish="'+d.id+'"><span class="tick"></span><span><span class="dn">'+esc(d.name)+"</span>"+(d.tag?'<span class="dtag">'+esc(d.tag)+"</span>":"")+(meta?'<div class="dmeta">'+esc(meta)+"</div>":"")+(d.desc?'<div class="ddesc">'+esc(d.desc)+"</div>":"")+"</span></button>";
+    });
+  });
+  $("dishList").innerHTML=html;
+}
+function fillLetter(){
+  var s=getScene(state.scene), occ=getOccasion(state.occasion);
+  var vars={to:state.to, from:state.from};
+  var greet=s.self?(s.greeting||"亲爱的自己"):(s.multi||s.greeting==="亲爱的各位"?(s.greeting||"亲爱的各位"):((s.greeting||"")+state.to));
+  $("envKicker").textContent=occ?occ.kicker:(s.self?"约自己":"约你吃饭");
+  $("envTitle").textContent=state.opened?s.openedTitle:s.opening;
+  $("envSub").textContent=state.opened?fillTemplate(s.openedSub,vars):s.openHint;
+  $("envTo").textContent="致 "+(s.self?"自己":(s.multi?"各位":state.to));
+  $("letterTo").textContent=greet;
+  $("letterBody").textContent=state.message||sceneMessage(state.scene,state.occasion);
+  $("letterFrom").textContent=state.from;
+  $("noteLbl").textContent=s.self?"写给自己的一句":("给 "+state.from+" 的一句");
+  $("btnTimeChange").textContent=s.self?"时间有变，先记一笔":"时间有变，跟TA说一声";
+  var slot=currentSlot(), f=formatSlot(slot||{});
+  $("whenTitle").textContent=slot?(f.title+"  "+f.meta):"时刻待定";
+  $("whenAddr").textContent=CONFIG.restaurant.address;
+  var pet=findPet(state.pet);
+  $("petDrop").classList.toggle("hidden", !pet);
+  if(pet){
+    $("petImg").src="images/pets/"+pet.id+".webp";
+    $("petLabel").textContent=pet.name;
+  }
+  var fl=flowerLine(state.flower);
+  $("flowerLine").textContent=fl;
+  $("flowerLine").classList.toggle("hidden", !fl);
+  var amb=$("ambience");
+  amb.className="ambience"+(state.ambience?" "+state.ambience:"");
+  amb.classList.toggle("hidden", !state.ambience||!state.opened);
+  applyTheme();
+}
+function openLetter(){
+  if(!state.opened){
+    state.opened=true;
+    $("envFront").classList.add("hidden");
+    $("envLetter").classList.remove("hidden");
+    $("afterOpen").classList.remove("hidden");
+    fillLetter();
+    renderDishes();
+    $("noteInput").value=state.reply.note||"";
+    if(state.pet){ var add=function(){ $("petDrop").classList.add("in"); }; if(document.documentElement.classList.contains("shot")) add(); else setTimeout(add, 80); }
+    playMusicBox(state.music);
+    $("btnMute").classList.remove("hidden");
+  }
+}
+function renderConfirm(){
+  var s=getScene(state.scene), occ=getOccasion(state.occasion);
+  var slot=currentSlot(), f=formatSlot(slot||{});
+  var dishLines=selectedDishLines(state.reply.dishes);
+  var dishText=dishLines.length?dishLines.join("、"):"到时一起看";
+  $("confirmKicker").textContent=state.reply.timeChange?"时间有变":(occ?occ.kicker:"已记下");
+  $("confirmTitle").textContent=state.reply.timeChange?"说明已记下":s.confirmTitle;
+  $("confirmSub").textContent=state.reply.timeChange?(isSelf()?"改期安排已留在这张卡上。":"对方打开回复链接后，会在列表里看到你的说明。"):s.confirmSub;
+  $("cardVow").textContent=s.cardVow;
+  $("cardPair").textContent=s.self?"给自己的约定":fillTemplate(s.pairText,{to:state.to,from:state.from});
+  var dl="<dt>餐厅</dt><dd>"+esc(CONFIG.restaurant.name)+"</dd><dt>时间</dt><dd>"+esc(f.title+" "+f.meta)+"</dd><dt>地点</dt><dd>"+esc(CONFIG.restaurant.address)+"</dd>";
+  if(dishLines.length) dl+="<dt>想吃</dt><dd>"+esc(dishText)+'<div class="price-note">'+CONFIG.priceNote+"</div></dd>";
+  if(state.reply.note) dl+="<dt>"+(state.reply.timeChange?"说明":"留言")+"</dt><dd>"+esc(state.reply.note)+"</dd>";
+  $("cardDl").innerHTML=dl;
+  $("footConfirm").innerHTML=CONFIG.restaurant.bookingNote+' <a href="tel:'+CONFIG.restaurant.phone+'">拨打 '+CONFIG.restaurant.phone+"</a>";
+  $("btnNav").href="https://uri.amap.com/marker?position="+CONFIG.restaurant.longitude+","+CONFIG.restaurant.latitude+"&name="+encodeURIComponent(CONFIG.restaurant.name)+"&address="+encodeURIComponent(CONFIG.restaurant.address);
+  var pet=findPet(state.pet);
+  $("confirmPet").classList.toggle("hidden", !pet);
+  if(pet){
+    $("cPetImg").src="images/pets/"+pet.id+".webp";
+    $("cPetName").value=state.reply.petName||pet.name;
+  }
+  var fl=flowerLine(state.flower);
+  $("cFlower").textContent=fl; $("cFlower").classList.toggle("hidden", !fl);
+  var summary=replySummaryText();
+  $("replySummary").textContent=summary;
+  $("btnCopyReply").textContent=isSelf()?"复制这张赴约卡链接":"复制回复，发回给TA";
+  $("replyShare").classList.toggle("hidden", false);
+  applyTheme();
+}
+function replySummaryText(){
+  var f=formatSlot(currentSlot()||{});
+  var lines=[];
+  if(isSelf()) lines.push("给自己的约定 · 锦途川滇");
+  else lines.push((state.from||"我")+" 邀 "+(state.to||"你")+" · 锦途川滇");
+  lines.push("赴约时间："+f.title+" "+f.meta);
+  if(state.reply.timeChange) lines.push("时间有变："+(state.reply.note||""));
+  else lines.push(state.reply.attending?"回执：我会准时赴约。":"");
+  var d=selectedDishLines(state.reply.dishes);
+  if(d.length) lines.push("想吃："+d.join("、")+"（价格以店内为准）");
+  if(state.reply.note&&!state.reply.timeChange) lines.push("留言："+state.reply.note);
+  var pet=findPet(state.pet);
+  if(pet) lines.push("电子宠物："+(state.reply.petName||pet.name)+"（"+pet.sign+"）");
+  var fl=flowerLine(state.flower); if(fl) lines.push(fl);
+  lines.push("把下面这条链接发给邀请人，即可在「我发出的邀请」里看到回执。");
+  lines.push(replyShareUrl());
+  return lines.filter(Boolean).join("\n");
+}
+function startCountdown(){
+  stopCountdown();
+  function tick(){
+    var slot=currentSlot(), target=slot?formatSlot(slot).date:null;
+    var diff=target?target.getTime()-Date.now():0;
+    if(diff<0) diff=0;
+    $("cdD").textContent=Math.floor(diff/86400000);
+    $("cdH").textContent=Math.floor(diff%86400000/3600000);
+    $("cdM").textContent=Math.floor(diff%3600000/60000);
+    $("cdS").textContent=Math.floor(diff%60000/1000);
+  }
+  tick(); state.countTimer=setInterval(tick,1000);
+}
+function stopCountdown(){ if(state.countTimer){clearInterval(state.countTimer);state.countTimer=null;} }
+function renderInbox(){
+  var docs=readDocs(), list=readMine().map(function(id){return docs[id];}).filter(Boolean);
+  if(!list.length){ $("inboxList").innerHTML='<p class="sub" style="margin:40px 0">还没有发出的邀请。</p>'; return; }
+  $("inboxList").innerHTML=list.map(function(doc){
+    var scene=getScene(doc.scene);
+    var replied=doc.status==="replied"&&doc.reply;
+    var slot=(doc.slots&&doc.slots[0])||null, f=slot?formatSlot(slot):null;
+    var title=scene.self?"给自己的约定":("致 "+esc(doc.to));
+    var st=replied?(doc.reply.timeChange?"时间有变":"已赴约"):"待回复";
+    var body='<div class="item"><div class="top"><span class="name">'+title+'</span><span class="st">'+st+"</span></div>";
+    body+='<div class="im">'+scene.label+"  ·  "+esc(doc.from)+"</div>";
+    if(f) body+='<div class="im">赴约时间  '+esc(f.title+" "+f.meta)+"</div>";
+    if(replied){
+      body+='<div class="reply">';
+      if(doc.reply.timeChange) body+="<div>时间有变  "+esc(doc.reply.note||"")+"</div>";
+      var dlines=selectedDishLines(doc.reply.dishes);
+      if(dlines.length) body+="<div>想吃  "+esc(dlines.join("、"))+"</div>";
+      if(doc.pet){ var pet=findPet(doc.pet); if(pet) body+="<div>电子宠物  "+esc((doc.reply.petName||pet.name)+"（"+pet.sign+"）")+"</div>"; }
+      if(doc.flower) body+="<div>"+esc(flowerLine(doc.flower))+"</div>";
+      if(doc.reply.note&&!doc.reply.timeChange) body+="<div>留言  "+esc(doc.reply.note)+"</div>";
+      body+="</div>";
+    }
+    return body+"</div>";
+  }).join("");
+}
+function ingestReplyFromPayload(payload){
+  if(!payload||!payload.inv) return;
+  applyCompactInv(payload.inv);
+  var doc=inviteDoc();
+  if(payload.reply){
+    applyCompactReply(payload.reply);
+    doc.status="replied";
+    doc.reply={
+      attending:!!payload.reply.at, timeChange:!!payload.reply.tc,
+      note:payload.reply.n||"", dishes:payload.reply.ds||[], petName:payload.reply.pn||"",
+      slotId:"s1"
+    };
+  }
+  upsertMine(doc);
+}
+
+function accept(isChange){
+  if(isChange){
+    var c=($("changeInput").value||"").trim();
+    if(!c){ toast("请先写一句说明"); return; }
+    state.reply.timeChange=true; state.reply.attending=false;
+    var n=($("noteInput").value||"").trim();
+    state.reply.note=n?n+"\n"+c:c;
+  }else{
+    state.reply.timeChange=false; state.reply.attending=true;
+    state.reply.note=$("noteInput").value||"";
+  }
+  var doc=inviteDoc();
+  doc.status="replied";
+  doc.reply={
+    attending:state.reply.attending, timeChange:state.reply.timeChange,
+    note:state.reply.note, dishes:state.reply.dishes||[], petName:state.reply.petName||"",
+    slotId:"s1"
+  };
+  upsertMine(doc);
+  renderConfirm(); showView("confirm");
+}
+
+function onReady(){
+  var params=new URLSearchParams(location.search);
+  if(params.get("shot")) document.documentElement.classList.add("shot");
+  /* hash payload first */
+  var hash=location.hash||"";
+  var m=hash.match(/(?:^#|&)p=([^&]+)/);
+  if(!m && hash.indexOf("#p=")==0) m=["",hash.slice(3)];
+  if(m){
+    var payload=decodePayload(decodeURIComponent(m[1]));
+    if(payload){
+      ingestReplyFromPayload(payload);
+      if(payload.reply){
+        fillLetter(); renderSigs(); renderInbox();
+        /* inviter opening a reply link */
+        showView("inbox");
+        toast("已收下回执");
+        bindEvents();
+        return;
+      }
+    }
+  }
+  if(params.get("scene")) state.scene=params.get("scene");
+  if(params.get("occasion")) state.occasion=params.get("occasion");
+  if(params.get("to")) state.to=params.get("to");
+  if(params.get("from")) state.from=params.get("from");
+  if(params.get("msg")) state.message=params.get("msg");
+  if(params.get("slots")){
+    var raw=params.get("slots").split(",")[0]||"";
+    var b=raw.split("T");
+    if(b.length>=2){ state.slotDate=b[0]; state.slotTime=b[1]; }
+  }
+  if(params.get("pet")) state.pet=params.get("pet");
+  if(params.get("flower")) state.flower=params.get("flower");
+  if(params.get("ambience")||params.get("amb")) state.ambience=params.get("ambience")||params.get("amb");
+  if(params.get("music")) state.music=params.get("music");
+  if(!state.music) state.music=defaultMusic(state.scene,state.occasion);
+  if(!state.message) state.message=sceneMessage(state.scene,state.occasion);
+
+  var shot=params.get("shot"), mode=params.get("mode");
+  /* seed a fixed time for screenshots if missing */
+  if(shot && !state.slotDate){ state.slotDate="2026-11-21"; state.slotTime="18:30"; }
+
+  fillCreateForm(); fillLetter(); renderSigs(); renderDishes();
+
+  if(shot==="create"||mode==="create"){ fillCreateForm(); showView("create"); }
+  else if(shot==="choose"){
+    if(!state.reply.dishes.length) state.reply.dishes=["sig-suan-tang-yu","sig-bohe-paigu","pop-zhaxiangua"];
+    renderDishes(); openLetter(); showView("envelope");
+    setTimeout(function(){
+      var btn=$("btnAccept");
+      if(btn){
+        var y=btn.getBoundingClientRect().top+window.scrollY-(window.innerHeight-90);
+        window.scrollTo(0, Math.max(0,y));
+      }
+    }, 40);
+  }
+  else if(shot==="confirm"||shot==="self"){
+    if(shot==="self"){ state.scene="self"; state.to="自己"; state.message=sceneMessage("self",""); state.music="quiet"; }
+    if(!state.reply.dishes.length) state.reply.dishes=["sig-suan-tang-yu","sig-bohe-paigu","pop-zhaxiangua"];
+    if(!state.reply.note) state.reply.note="好，我会准时到。";
+    if(!state.pet && shot==="confirm") state.pet="aries";
+    if(shot==="self" && !state.pet) state.pet="virgo";
+    state.reply.attending=true; state.opened=true;
+    renderConfirm(); showView("confirm");
+  }
+  else if(shot==="inbox"||mode==="inbox"){
+    if(!readMine().length){
+      var demo=upsertMine({
+        id:"demo1",to:"晚晚",from:"阿途",scene:"lover",message:getScene("lover").defaultMessage,
+        slots:[{id:"s1",date:"2026-11-21",time:"18:30",period:"晚饭"}],
+        pet:"aries", flower:"fresh", music:"gentle",
+        status:"replied",
+        reply:{attending:true,timeChange:false,note:"好，我会准时到。",dishes:["sig-suan-tang-yu","sig-bohe-paigu"],petName:"小雀",slotId:"s1"}
+      });
+      upsertMine({
+        id:"demo2",to:"自己",from:"阿途",scene:"self",message:getScene("self").defaultMessage,
+        slots:[{id:"s1",date:"2026-11-22",time:"12:00",period:"午后"}],
+        status:"pending"
+      });
+    }
+    renderInbox(); showView("inbox");
+  }
+  else if(shot==="letter"||shot==="open"){ openLetter(); }
+  else if(shot==="landing"){ showView("envelope"); }
+  else { showView("envelope"); }
+
+  bindEvents();
+}
+
+function bindEvents(){
+  $("envelope").addEventListener("click", openLetter);
+  $("envelope").addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openLetter(); } });
+  $("btnToCreate").addEventListener("click", function(){ stopMusic(false); fillCreateForm(); showView("create"); });
+  $("btnNew").addEventListener("click", function(){ stopMusic(false); fillCreateForm(); showView("create"); });
+  $("btnInbox").addEventListener("click", function(){ renderInbox(); showView("inbox"); });
+  $("btnAccept").addEventListener("click", function(){ accept(false); });
+  $("btnTimeChange").addEventListener("click", function(){ $("changeBox").classList.toggle("hidden"); });
+  $("btnSendChange").addEventListener("click", function(){ accept(true); });
+  $("btnMute").addEventListener("click", function(){ setMuted(!audio.muted); });
+  $("noteInput").addEventListener("input", function(){ state.reply.note=$("noteInput").value; });
+  $("cPetName").addEventListener("change", function(){ state.reply.petName=$("cPetName").value; renderConfirm(); });
+  $("btnGen").addEventListener("click", function(){
+    readCreateForm();
+    if(!state.slotDate||!state.slotTime){ toast("请填写已经约好的日期与时间"); return; }
+    var doc=upsertMine(Object.assign(inviteDoc(),{status:"pending",reply:null,createdAt:Date.now()}));
+    var url=inviteShareUrl();
+    $("shareUrl").textContent=url;
+    try{ history.replaceState(null,"",url); }catch(e){}
+    toast(isSelf()?"约定已写下，可以打开预览":"邀请已生成，复制链接发给对方");
+  });
+  $("btnCopy").addEventListener("click", function(){
+    readCreateForm();
+    if(!state.slotDate||!state.slotTime){ toast("请填写已经约好的日期与时间"); return; }
+    if(!state.id) upsertMine(Object.assign(inviteDoc(),{status:"pending",reply:null,createdAt:Date.now()}));
+    var url=inviteShareUrl();
+    $("shareUrl").textContent=url;
+    copyText(url, "链接已复制，发给对方即可");
+  });
+  $("btnPreview").addEventListener("click", function(){
+    readCreateForm();
+    if(!state.slotDate||!state.slotTime){ toast("请填写已经约好的日期与时间"); return; }
+    fillLetter(); showView("envelope");
+  });
+  $("btnCopyReply").addEventListener("click", function(){
+    copyText(replyShareUrl(), isSelf()?"赴约卡链接已复制":"回复链接已复制，请发给邀请人");
+  });
+  document.addEventListener("click", function(e){
+    var t=e.target.closest("[data-scene-pick]");
+    if(t){
+      var keep=!isDefaultMessage($("inMsg").value);
+      state.scene=t.getAttribute("data-scene-pick");
+      if(!keep){ state.message=sceneMessage(state.scene,state.occasion); $("inMsg").value=state.message; }
+      if(!state.musicTouched) state.music=defaultMusic(state.scene,state.occasion);
+      renderChips(); return;
+    }
+    t=e.target.closest("[data-occ-pick]");
+    if(t){
+      var oid=t.getAttribute("data-occ-pick");
+      var keep2=!isDefaultMessage($("inMsg").value);
+      state.occasion=state.occasion===oid?"":oid;
+      if(!keep2){ state.message=sceneMessage(state.scene,state.occasion); $("inMsg").value=state.message; }
+      if(!state.musicTouched) state.music=defaultMusic(state.scene,state.occasion);
+      renderChips(); return;
+    }
+    t=e.target.closest("[data-flower]"); if(t){ state.flower=t.getAttribute("data-flower")||""; renderChips(); return; }
+    t=e.target.closest("[data-pet]"); if(t){ state.pet=t.getAttribute("data-pet")||""; renderChips(); return; }
+    t=e.target.closest("[data-amb]"); if(t){ state.ambience=t.getAttribute("data-amb")||""; renderChips(); return; }
+    t=e.target.closest("[data-music]"); if(t){ state.music=t.getAttribute("data-music"); state.musicTouched=true; renderChips(); return; }
+    t=e.target.closest("[data-dish]");
+    if(t){
+      var id=t.getAttribute("data-dish");
+      if(!state.reply.dishes) state.reply.dishes=[];
+      var i=state.reply.dishes.indexOf(id);
+      if(i>=0) state.reply.dishes.splice(i,1); else state.reply.dishes.push(id);
+      renderDishes();
+    }
+  });
+}
+
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", onReady);
+else onReady();
+})();
+
+</script>
+</body>
+</html>
