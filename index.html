@@ -8,23 +8,50 @@
   <title>约你吃饭 · 锦途川滇</title>
   <style>
 
-:root{
+:root, .theme-jacaranda{
   --bg:#F5F3FA;--paper:#FCFBFE;--ink:#25213A;--muted:#6F6A85;
   --line:#E2DEEE;--accent:#8A7FD0;--primary:#4B3F8C;--tint:#E6E1F5;--on:#FFFFFF;
+  --page-bg:#E6E2F0;--shadow:0 8px 20px rgba(37,33,58,.04);--radius:0px;--motif-filter:none;
   --serif:"Songti SC","STSong","Source Han Serif SC","Noto Serif CJK SC","SimSun",serif;
   --sans:"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
 }
+.theme-cnred{
+  --bg:#F8F1EA;--paper:#FDF8F2;--ink:#2A1212;--muted:#8A5A54;
+  --line:#E8D6CE;--accent:#B83A32;--primary:#8E1C1C;--tint:#F3E0DC;--on:#FFFFFF;
+  --page-bg:#EFE4DC;--shadow:0 8px 20px rgba(42,18,18,.06);--radius:0px;
+  --motif-filter:sepia(.45) saturate(1.4) hue-rotate(-20deg);
+}
+.theme-macaron{
+  --bg:#FFF8F4;--paper:#FFFFFF;--ink:#3D2A32;--muted:#8A7380;
+  --line:#F0E0E6;--accent:#4A8A7A;--primary:#B04A60;--tint:#FDE8EE;--on:#FFFFFF;
+  --page-bg:#F3E8E4;--shadow:0 10px 24px rgba(176,74,96,.10);--radius:22px;
+  --motif-filter:hue-rotate(-20deg) saturate(.85);
+}
+.theme-blackgold{
+  --bg:#12100C;--paper:#1C1913;--ink:#F3E6C4;--muted:#B8A27A;
+  --line:#4A3F28;--accent:#E3C88A;--primary:#C9A45C;--tint:#2A2418;--on:#16130C;
+  --page-bg:#0A0907;--shadow:0 8px 24px rgba(0,0,0,.4);--radius:0px;
+  --motif-filter:brightness(0) invert(.86) sepia(1) saturate(4) hue-rotate(8deg);
+  color-scheme:dark;
+}
+.theme-redgold{
+  --bg:#1A0A0A;--paper:#2A1010;--ink:#F6E6C4;--muted:#D4B48A;
+  --line:#5A2A24;--accent:#E3C88A;--primary:#C9A45C;--tint:#3A1814;--on:#1A0C08;
+  --page-bg:#120606;--shadow:0 8px 24px rgba(0,0,0,.4);--radius:0px;
+  --motif-filter:brightness(0) invert(.86) sepia(1) saturate(4) hue-rotate(8deg);
+  color-scheme:dark;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:#E6E2F0;color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
+html,body{margin:0;min-height:100%;background:var(--page-bg,#E6E2F0);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
 button,input,textarea{font:inherit;color:inherit;border:0;background:none}
 button{cursor:pointer}
 .hidden{display:none !important}
 .app{min-height:100vh;display:flex;justify-content:center}
 .phone{width:100%;max-width:430px;min-height:100vh;min-height:100dvh;background:var(--bg);position:relative;overflow:hidden}
-.phone[data-scene="family"]{--accent:#7B6BB8}
-.phone[data-scene="friend"]{--accent:#6E7BC4}
-.phone[data-scene="team"]{--accent:#5C5499}
-.phone[data-scene="self"]{--accent:#9B8FD9}
+.theme-jacaranda[data-scene="family"],.phone.theme-jacaranda[data-scene="family"]{--accent:#7B6BB8}
+.theme-jacaranda[data-scene="friend"],.phone.theme-jacaranda[data-scene="friend"]{--accent:#6E7BC4}
+.theme-jacaranda[data-scene="team"],.phone.theme-jacaranda[data-scene="team"]{--accent:#5C5499}
+.theme-jacaranda[data-scene="self"],.phone.theme-jacaranda[data-scene="self"]{--accent:#9B8FD9}
 .view{padding:28px 24px 28px;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;position:relative;z-index:1}
 html.shot .view{animation:none}
 html.shot .pet-img.idle,html.shot .ambience.snow::before,html.shot .ambience.rain::before,html.shot .ambience.petals::before{animation:none !important}
@@ -37,8 +64,8 @@ html.shot .pet-img.idle,html.shot .ambience.snow::before,html.shot .ambience.rai
 .lbl{display:block;font-size:13px;letter-spacing:.14em;color:var(--muted);margin:24px 0 8px}
 .hint{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.6}
 .field{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;outline:none;border-radius:0}
-textarea.field,.area{border:1px solid var(--line);padding:12px;min-height:88px;resize:vertical;line-height:1.8}
-.btn{display:flex;align-items:center;justify-content:center;width:100%;text-align:center;background:var(--primary);color:var(--on);letter-spacing:.12em;font-size:16px;line-height:1.3;padding:16px 0;margin-top:24px;min-height:48px;border-radius:0;text-decoration:none}
+textarea.field,.area{border:1px solid var(--line);padding:12px;min-height:88px;resize:vertical;line-height:1.8;border-radius:var(--radius,0)}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;text-align:center;background:var(--primary);color:var(--on);letter-spacing:.12em;font-size:16px;line-height:1.3;padding:16px 0;margin-top:24px;min-height:48px;border-radius:var(--radius,0);text-decoration:none}
 .btn-ghost{background:transparent;color:var(--primary);border:1px solid var(--primary)}
 .btn-text{background:transparent;color:var(--muted);margin-top:8px;letter-spacing:.06em;font-size:15px;min-height:44px;padding:12px 0;border:0}
 .row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
@@ -46,9 +73,9 @@ textarea.field,.area{border:1px solid var(--line);padding:12px;min-height:88px;r
 .foot{margin-top:auto;padding-top:16px;font-size:12px;color:var(--muted);text-align:center;line-height:1.8}
 .foot a{color:var(--accent)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1px solid var(--line);padding:8px 14px;font-size:14px;background:transparent}
+.chip{border:1px solid var(--line);padding:8px 14px;font-size:14px;background:transparent;border-radius:var(--radius,0)}
 .chip.on{border-color:var(--primary);color:var(--primary);background:var(--tint)}
-.card{border:1px solid var(--line);background:var(--paper);padding:24px 20px;margin:16px 0;box-shadow:0 8px 20px rgba(37,33,58,.04)}
+.card{border:1px solid var(--line);background:var(--paper);padding:24px 20px;margin:16px 0;box-shadow:var(--shadow);border-radius:var(--radius,0)}
 .card .mark{text-align:center;letter-spacing:.4em;font-size:12px;color:var(--muted)}
 .card h2{font-family:var(--serif);font-weight:500;text-align:center;font-size:22px;margin:8px 0 0}
 .card .pair{text-align:center;color:var(--accent);margin:8px 0 20px;font-size:13px}
@@ -57,7 +84,7 @@ textarea.field,.area{border:1px solid var(--line);padding:12px;min-height:88px;r
 .card .vow{text-align:center;font-family:var(--serif);margin:12px 0 6px}
 .card .price-note{text-align:left;margin:4px 0 0;font-size:12px;color:var(--muted)}
 .meta{font-size:13px;color:var(--muted);margin-top:2px}
-.env{border:1px solid var(--line);background:var(--paper);padding:28px 24px;margin:16px 0 12px;box-shadow:0 8px 20px rgba(37,33,58,.04)}
+.env{border:1px solid var(--line);background:var(--paper);padding:28px 24px;margin:16px 0 12px;box-shadow:var(--shadow);border-radius:var(--radius,0)}
 .env .rule{height:1px;background:var(--line)}
 .env-front .to{font-family:var(--serif);font-size:24px;text-align:center;margin:28px 0 16px;letter-spacing:.12em}
 .env-front .hint{text-align:center;font-size:13px;letter-spacing:.24em;color:var(--muted);margin-bottom:28px}
@@ -66,7 +93,7 @@ textarea.field,.area{border:1px solid var(--line);padding:12px;min-height:88px;r
 .env-letter .body{font-size:14px;line-height:2;margin:0}
 .env-letter .from{text-align:right;margin-top:24px;font-family:var(--serif);color:var(--accent)}
 .rest{text-align:center;font-size:13px;letter-spacing:.16em;color:var(--muted)}
-.motif{display:block;width:80px;height:64px;margin:8px auto 0;opacity:.4}
+.motif{display:block;width:80px;height:64px;margin:8px auto 0;opacity:.45;filter:var(--motif-filter,none)}
 .item{border-bottom:1px solid var(--line);padding:20px 0}
 .item .top{display:flex;justify-content:space-between;align-items:baseline}
 .item .name{font-family:var(--serif);font-size:17px}
@@ -123,11 +150,20 @@ html.shot .toast{display:none}
 .ambience.petals::before{background-image:radial-gradient(ellipse closest-side,rgba(138,127,208,.5) 40%,transparent 70%);background-size:18px 12px;opacity:.4}
 @keyframes fall{to{transform:translateY(30%)}}
 
-  </style>
+  
+.theme-swatches{display:flex;flex-wrap:wrap;gap:12px 16px;margin:4px 0}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;width:56px;padding:0;background:none;border:0;color:inherit}
+.swatch .dots{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);overflow:hidden;display:flex;box-sizing:border-box}
+.swatch.on .dots{border-color:var(--primary);box-shadow:0 0 0 2px var(--tint)}
+.swatch .dots i{flex:1;display:block;height:100%}
+.swatch span{font-size:11px;letter-spacing:.04em;color:var(--muted)}
+.swatch.on span{color:var(--ink)}
+.theme-macaron .swatch .dots{border-radius:14px}
+</style>
 </head>
 <body>
 
-<div class="app"><div class="phone" id="phone">
+<div class="app"><div class="phone theme-jacaranda" id="phone">
   <button class="mute hidden" type="button" id="btnMute">八音盒</button>
   <div class="ambience hidden" id="ambience"></div>
 
@@ -139,6 +175,8 @@ html.shot .toast{display:none}
   <div class="chips" id="sceneList"></div>
   <label class="lbl">场合（可选）</label>
   <div class="chips" id="occasionList"></div>
+  <label class="lbl">信笺颜色</label>
+  <div class="theme-swatches" id="themeList"></div>
   <div id="toField">
     <label class="lbl" for="inTo">邀请谁</label>
     <input class="field" id="inTo" maxlength="16" placeholder="例如：晚晚">
@@ -279,9 +317,21 @@ var MELODIES = {"gentle": {"bpm": 76, "beats": 12, "decay": 1.1, "notes": [[72, 
 var WEEK = "日一二三四五六";
 var STORE = "yueni_invites_v3";
 var MINE = "yueni_my_invite_ids";
+var THEMES = [
+  {id:"jacaranda",label:"蓝花楹",dark:false,bg:"#F5F3FA",swatches:["#4B3F8C","#8A7FD0","#F5F3FA"]},
+  {id:"cnred",label:"中国红",dark:false,bg:"#F8F1EA",swatches:["#8E1C1C","#B83A32","#F8F1EA"]},
+  {id:"macaron",label:"马卡龙",dark:false,bg:"#FFF8F4",swatches:["#F3B8C4","#7EB8A8","#F5E6A8","#C5B4E8"]},
+  {id:"blackgold",label:"黑金",dark:true,bg:"#12100C",swatches:["#12100C","#C9A45C","#E3C88A"]},
+  {id:"redgold",label:"红金",dark:true,bg:"#1A0A0A",swatches:["#1A0A0A","#8E1C1C","#C9A45C"]}
+];
+function getTheme(id){
+  for(var i=0;i<THEMES.length;i++) if(THEMES[i].id===id) return THEMES[i];
+  return THEMES[0];
+}
 var state = {
   view: "envelope", opened: false, id: "",
   to: "你", from: "我", message: "", scene: "lover", occasion: "",
+  theme: "jacaranda",
   slotDate: "", slotTime: "",
   flower: "", pet: "", ambience: "", music: "gentle", musicTouched: false,
   reply: { dishes: [], note: "", petName: "", attending: true, timeChange: false },
@@ -391,7 +441,7 @@ function compactInv(){
   return {
     t:state.to,f:state.from,m:state.message,s:state.scene,o:state.occasion||"",
     d:state.slotDate,ti:state.slotTime,fl:state.flower||"",p:state.pet||"",
-    a:state.ambience||"",u:state.music||"",id:state.id||""
+    a:state.ambience||"",u:state.music||"",th:state.theme||"jacaranda",id:state.id||""
   };
 }
 function applyCompactInv(c){
@@ -401,6 +451,7 @@ function applyCompactInv(c){
   state.slotDate=c.d||""; state.slotTime=c.ti||"";
   state.flower=c.fl||""; state.pet=c.p||""; state.ambience=c.a||"";
   state.music=c.u||defaultMusic(state.scene,state.occasion);
+  state.theme=c.th||"jacaranda";
   state.id=c.id||state.id||"";
 }
 function compactReply(){
@@ -456,7 +507,7 @@ function inviteDoc(){
     id:state.id, to:state.to, from:state.from, message:state.message,
     scene:state.scene, occasion:state.occasion,
     slots:slot?[slot]:[], flower:state.flower, pet:state.pet,
-    ambience:state.ambience, music:state.music
+    ambience:state.ambience, music:state.music, theme:state.theme||"jacaranda"
   };
 }
 function upsertMine(doc){
@@ -527,7 +578,17 @@ function setMuted(v){
 }
 
 /* ---- render ---- */
-function applyTheme(){ $("phone").setAttribute("data-scene", state.scene||"lover"); }
+function applyTheme(){
+  var th=getTheme(state.theme||"jacaranda");
+  var phone=$("phone");
+  phone.className="phone theme-"+th.id;
+  phone.setAttribute("data-scene", state.scene||"lover");
+  var root=document.documentElement;
+  var shot=root.classList.contains("shot");
+  root.className=(shot?"shot ":"")+"theme-"+th.id;
+  var meta=document.querySelector('meta[name="theme-color"]');
+  if(meta) meta.setAttribute("content", th.bg);
+}
 function showView(name){
   state.view=name;
   ["create","envelope","confirm","inbox"].forEach(function(v){
@@ -539,6 +600,10 @@ function showView(name){
 }
 function isSelf(){ return !!getScene(state.scene).self; }
 function renderChips(){
+  $("themeList").innerHTML=THEMES.map(function(th){
+    var dots=th.swatches.map(function(c){ return "<i style=\"background:"+c+"\"></i>"; }).join("");
+    return '<button type="button" class="swatch'+(state.theme===th.id?" on":"")+'" data-theme-pick="'+th.id+'"><span class="dots">'+dots+'</span><span>'+th.label+"</span></button>";
+  }).join("");
   $("sceneList").innerHTML=CONFIG.scenes.map(function(s){
     return '<button type="button" class="chip'+(state.scene===s.id?" on":"")+'" data-scene-pick="'+s.id+'">'+s.label+"</button>";
   }).join("");
@@ -807,6 +872,7 @@ function onReady(){
   if(params.get("flower")) state.flower=params.get("flower");
   if(params.get("ambience")||params.get("amb")) state.ambience=params.get("ambience")||params.get("amb");
   if(params.get("music")) state.music=params.get("music");
+  if(params.get("theme")) state.theme=params.get("theme");
   if(!state.music) state.music=defaultMusic(state.scene,state.occasion);
   if(!state.message) state.message=sceneMessage(state.scene,state.occasion);
 
@@ -916,6 +982,8 @@ function bindEvents(){
       if(!state.musicTouched) state.music=defaultMusic(state.scene,state.occasion);
       renderChips(); return;
     }
+    t=e.target.closest("[data-theme-pick]");
+    if(t){ state.theme=t.getAttribute("data-theme-pick")||"jacaranda"; renderChips(); applyTheme(); return; }
     t=e.target.closest("[data-flower]"); if(t){ state.flower=t.getAttribute("data-flower")||""; renderChips(); return; }
     t=e.target.closest("[data-pet]"); if(t){ state.pet=t.getAttribute("data-pet")||""; renderChips(); return; }
     t=e.target.closest("[data-amb]"); if(t){ state.ambience=t.getAttribute("data-amb")||""; renderChips(); return; }
