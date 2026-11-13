@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#F5F3FA">
   <meta name="format-detection" content="telephone=yes">
   <title>约你吃饭 · 锦途川滇</title>
+  <!-- v9 moments poster -->
   <style>
 @font-face{font-family:"Yueni Song";src:url("fonts/song.woff2?v=8") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Yueni Kai";src:url("fonts/kai.woff2?v=8") format("woff2");font-weight:400;font-style:normal;font-display:swap}
@@ -252,6 +253,17 @@ html.shot-typog .sbit{display:none !important}
 .theme-blackgold .season-pick .ico.autumn,.theme-redgold .season-pick .ico.autumn{background:#C9A45C}
 .theme-blackgold .season-pick .ico.winter,.theme-redgold .season-pick .ico.winter{background:#F3E6C4}
 .season-pick span{font-family:var(--serif);font-size:16px;letter-spacing:.16em}
+/* ---- moments poster ---- */
+.poster-mask{position:fixed;inset:0;z-index:30;background:rgba(20,16,28,.55);display:flex;align-items:flex-start;justify-content:center;padding:16px 16px 24px;overflow:auto;-webkit-overflow-scrolling:touch}
+.poster-mask.hidden{display:none !important}
+.poster-sheet{width:100%;max-width:390px;margin:auto;background:var(--paper);padding:20px 20px 16px;box-shadow:var(--shadow);border-radius:var(--radius,0);display:flex;flex-direction:column;align-items:center}
+.poster-kicker{font-family:var(--serif);letter-spacing:.28em;font-size:13px;color:var(--accent);margin:0 0 12px}
+.poster-img{width:100%;height:auto;display:block;border:1px solid var(--line);background:var(--bg);-webkit-touch-callout:default;-webkit-user-select:none;user-select:none}
+.poster-hint{font-size:13px;color:var(--muted);text-align:center;line-height:1.7;margin:12px 0 0}
+.poster-sheet .btn{margin-top:16px}
+.poster-sheet .btn-text{margin-top:4px}
+html.shot .poster-mask{background:#1a1624}
+
 </style>
 </head>
 <body>
@@ -302,6 +314,7 @@ html.shot-typog .sbit{display:none !important}
   <div class="chips" id="musicList"></div>
   <button class="btn" type="button" id="btnGen">生成邀请链接</button>
   <button class="btn btn-ghost" type="button" id="btnCopy">复制发给对方</button>
+  <button class="btn btn-ghost" type="button" id="btnPoster">制成信笺，发到朋友圈</button>
   <button class="btn btn-text" type="button" id="btnPreview">预览对方所见</button>
   <button class="btn btn-text" type="button" id="btnInbox">我发出的邀请</button>
   <p class="path" id="shareUrl"></p>
@@ -345,6 +358,7 @@ html.shot-typog .sbit{display:none !important}
     <label class="lbl" id="noteLbl" for="noteInput">给对方的一句</label>
     <textarea class="field area" id="noteInput" maxlength="120" placeholder="也可以写上忌口。"></textarea>
     <button class="btn" type="button" id="btnAccept">我会准时赴约</button>
+    <button class="btn btn-ghost" type="button" id="btnPosterOpen">制成信笺，发到朋友圈</button>
     <button class="btn-text" type="button" id="btnTimeChange">时间有变，跟TA说一声</button>
     <div class="hidden" id="changeBox">
       <textarea class="field area" id="changeInput" maxlength="120" placeholder="简单说一声你的时间安排。"></textarea>
@@ -383,6 +397,7 @@ html.shot-typog .sbit{display:none !important}
     <a class="btn" href="tel:15100180988">致电餐厅</a>
   </div>
   <div id="replyShare">
+    <button class="btn btn-ghost" type="button" id="btnPosterConfirm">制成信笺，发到朋友圈</button>
     <button class="btn btn-ghost" type="button" id="btnCopyReply">复制回复，发回给TA</button>
     <div class="summary" id="replySummary"></div>
   </div>
@@ -398,8 +413,20 @@ html.shot-typog .sbit{display:none !important}
 </section>
 
 </div></div>
+
+<div class="poster-mask hidden" id="posterMask" role="dialog" aria-label="赴约信笺">
+  <div class="poster-sheet">
+    <p class="poster-kicker">一帧信笺</p>
+    <img class="poster-img" id="posterImg" alt="赴约信笺">
+    <p class="poster-hint" id="posterHint">在微信里，长按图片即可保存，再发到朋友圈。</p>
+    <a class="btn" id="btnPosterSave" download="约你吃饭-信笺.png">保存信笺</a>
+    <button class="btn-text" type="button" id="btnPosterClose">关闭</button>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
+<script src="js/qrcode.js?v=9"></script>
+<script src="js/poster.js?v=9"></script>
 <script>
 var CONFIG = {"restaurant": {"name": "锦途川滇•融合菜（万象天成店）", "shortName": "锦途川滇", "slogan": "味承川滇，艺续非遗", "city": "石家庄", "area": "万象天成", "address": "石家庄市桥西区裕华西路15号万象天成广场二层216B", "phone": "15100180988", "hours": "营业时间待填", "priceLevel": "¥65/人", "rating": 4.7, "ratingSource": "大众点评", "category": "云南菜|滇菜", "dianpingUrl": "https://m.dianping.com/shopinfo/jnaL1i3tdyW4JGQG", "meituanUrl": "http://dpurl.cn/BfCg1kTz", "latitude": 38.0366, "longitude": 114.4804, "coordVerified": false, "coordNote": "待核实：万象天成广场大致坐标，非 216B 精确点", "bookingNote": "本页只收集赴约意向，不直接完成订位。最终订位请致电餐厅确认：15100180988。", "vibe": "不必远赴西南，也能坐进滇风里。梁间悬着甲马布幡，席间有瓦猫守着，川渝的鲜香与滇式的清鲜在同一张桌上相遇。", "highlights": [{"title": "川渝鲜香", "desc": "遇见滇式清鲜，还原山野本真风味"}, {"title": "席间见非遗", "desc": "用餐时可遇傩舞表演"}, {"title": "一步一景", "desc": "梁间甲马布幡，席间瓦猫、木刻与陶土"}, {"title": "可带走的滇韵", "desc": "前厅文创：大理扎染、苗族银饰、植物手作与寺庙文创"}]}, "defaultScene": "lover", "occasions": [{"id": "birthday", "label": "生辰", "kicker": "生辰", "line": "把这一日的暖意，放进这顿饭里。", "selfLine": "这一顿，给自己过生辰。"}, {"id": "anniversary", "label": "纪念日", "kicker": "纪念日", "line": "把这个日子，轻轻记在这顿饭上。"}, {"id": "thanks", "label": "感谢", "kicker": "感谢", "line": "有些谢意，都在席间。"}, {"id": "missyou", "label": "就想见你", "kicker": "就想见你", "line": "只想与你对坐。"}], "scenes": [{"id": "lover", "label": "恋人", "greeting": "", "opening": "有一封信，写给你", "openHint": "轻触展开", "openedTitle": "一席山野，等你来", "openedSub": "{from} 邀你，把近来的话慢慢说完", "defaultMessage": "石家庄的风起了，想起云南的雨季。\n备了一桌川滇的山野与烟火，\n等你来，把近来的话慢慢说完。", "confirmTitle": "你说来，这一席便有了着落", "confirmSub": "留下这张赴约卡", "cardVow": "等你来，把近来的话慢慢说完。", "envelopeHint": "一席山野，等你来", "enterCta": "我会准时赴约", "chooseSub": "这席只等你回一声「好」。", "pairText": "{from} 邀 {to} 共进一餐", "multi": false, "accent": "#8A7FD0", "messages": {"birthday": "生辰这一日，想以山野的鲜与炉火的暖，\n为你添一笔从容。\n来，把这岁的风，慢慢喝下去。", "anniversary": "这个日子，我想起苍山下的风，也想起你。\n备了一席茶与山珍，\n把我们走过的路，轻轻记在这顿饭上。", "thanks": "有些谢意，不必说重。\n我备了滇南的菜与一壶茶，\n请你来坐一坐，听一听炉火。", "missyou": "只想与你对坐。\n窗外是北地的风，桌上是滇南的雨气。\n来吧，把近来的话，慢慢说完。"}}, {"id": "family", "label": "家人", "greeting": "", "opening": "想把这一桌，留给家里", "openHint": "轻触展开", "openedTitle": "等你们来，把饭热一热", "openedSub": "日子走得快，饭要慢慢吃", "defaultMessage": "日子走得快，饭要慢慢吃。\n这一桌山野与炉火，换我来张罗。\n等你们来，把家里的话热一热。", "confirmTitle": "家里的位子，都给你留着", "confirmSub": "留下这张赴约卡", "cardVow": "这一桌，换我来张罗。", "envelopeHint": "等你们来，把饭热一热", "enterCta": "我会准时赴约", "chooseSub": "挑一顿，把家里的人轻轻聚齐。", "pairText": "{from} 邀 {to}，回家吃饭", "multi": false, "accent": "#7B6BB8", "messages": {"birthday": "这一日，是家里的生辰。\n我备了滇味的鲜与一壶热茶，\n请你们来，把这岁的暖意吃进去。", "anniversary": "这个日子，家里该坐一坐。\n菜是山野的，火是家里的。\n来，把往岁轻轻提起。", "thanks": "平日受你们照顾太多。\n这一桌，换我来张罗。\n来坐，茶是热的。", "missyou": "近来少见，心里记挂。\n备了一桌家常的川滇味道，\n请回来，把饭吃完，把话也说完。"}}, {"id": "friend", "label": "朋友", "greeting": "", "opening": "想请你来坐一坐", "openHint": "轻触展开", "openedTitle": "酒还温着，席还留着", "openedSub": "有些话，适合就着热茶说", "defaultMessage": "有些话，适合就着热茶说。\n我备了滇南的山珍与一壶酒，\n来坐，把近来的事慢慢摆上桌。", "confirmTitle": "你说来，这一桌便成了局", "confirmSub": "留下这张赴约卡", "cardVow": "来，把这些年下酒。", "envelopeHint": "酒还温着，席还留着", "enterCta": "我会准时赴约", "chooseSub": "这席只等你回一声「好」。", "pairText": "{from} 邀 {to} 吃一顿", "multi": false, "accent": "#6E7BC4", "messages": {"birthday": "你的生辰，我想起洱海边的风。\n备了一桌鲜味与薄酒，\n来，把这一岁过得从容些。", "anniversary": "这个日子，值得对坐一回。\n菜是山里的，话是旧年的。\n来，把记得的那些，慢慢温一温。", "thanks": "承你情谊，不敢说重。\n我备了滇味与清茶，\n请来一坐，谢意都在席间。", "missyou": "一别经年，酒还温着。\n我留了一席山野与烟火，\n来，把这些年下酒。"}}, {"id": "team", "label": "团建", "greeting": "", "opening": "这一桌，留给我们", "openHint": "轻触展开", "openedTitle": "把步伐放慢，来吃一顿", "openedSub": "{from} 请大家，把事情暂放下", "defaultMessage": "事情可以暂放一放。\n这一桌山野与炉火，留给我们。\n来坐，把步伐放慢，把饭吃完。", "confirmTitle": "这一桌，等大家到齐", "confirmSub": "把这支队伍轻轻点齐", "cardVow": "来坐，把步伐放慢。", "envelopeHint": "把步伐放慢，来吃一顿", "enterCta": "我会准时赴约", "chooseSub": "选一个大家都方便的时刻。", "pairText": "{from} 邀大家，一起吃饭", "multi": true, "accent": "#5C5499", "messages": {"birthday": "遇到这样的日子，应当坐下来。\n我备了滇南的菜与茶，\n请各位来，把这一岁的风尘洗一洗。", "anniversary": "这个日子，队伍里该聚一聚。\n席上是山野的鲜，壶里是热茶。\n来，把走过的路轻轻提起。", "thanks": "一段路走来，多谢各位。\n今晚以滇南的菜与茶，\n为大家洗一洗风尘。", "missyou": "许久未好好坐在一起。\n我留了一席山野与炉火，\n请来，把近来的话慢慢说完。"}}, {"id": "self", "label": "约自己", "greeting": "致自己：", "opening": "这一封信，写给自己", "openHint": "轻触展开", "openedTitle": "也该坐下来了", "openedSub": "好好吃一顿，听一听自己的心事", "defaultMessage": "奔走许久，也该坐下来，\n好好吃一顿，听一听自己的心事。\n这一席山野与炉火，只留给你。", "confirmTitle": "你对自己，守了这一约", "confirmSub": "留下这张给自己的赴约卡", "cardVow": "奔走许久，也该坐下来。", "envelopeHint": "也该坐下来了", "enterCta": "我会准时赴约", "chooseSub": "选一个只属于你的时刻。", "pairText": "给自己的约定", "multi": false, "self": true, "accent": "#9B8FD9", "messages": {"birthday": "这一日，是自己的生辰。\n不必等谁来约。备一席滇味，\n好好坐一坐，把这岁轻轻收下。", "anniversary": "这个日子，想与自己对坐。\n茶热着，山野的鲜也在席上。\n慢慢吃，也算没有辜负这一天。", "thanks": "这一路，也算认真走过来了。\n今晚以一桌山野与热茶，\n谢谢自己，还愿意好好吃饭。", "missyou": "许久未好好见自己。\n今夜且坐下来，听一听炉火，\n把心里搁着的话，慢慢理一理。"}}], "dishesReady": true, "priceNote": "价格以店内为准", "dishes": [{"id": "sig-suan-tang-yu", "name": "木姜子酸汤鱼", "price": 88, "tag": "主推", "group": "signature", "rec": 67, "desc": "独家秘制，活鱼现杀，新鲜现做"}, {"id": "sig-bohe-paigu", "name": "薄荷凤梨炸排骨", "price": 69, "tag": "招牌", "group": "signature", "rec": 20, "desc": "油而不腻，排骨，热油烹炸"}, {"id": "sig-nanmi-chicken", "name": "喃咪酱炙烤鸡", "price": 62, "tag": "招牌", "group": "signature", "rec": 0, "desc": "鲜美多汁，鸡肉，炭火烧烤"}, {"id": "sig-daiwei-fish", "name": "傣味手撕鱼", "price": 88, "tag": "招牌", "group": "signature", "rec": 20, "desc": "酸甜可口，活鱼现杀，热油烹炸"}, {"id": "pop-zhaxiangua", "name": "香炸菩提南瓜", "price": 22, "tag": "", "group": "popular", "rec": 38, "desc": ""}, {"id": "pop-shanye-ji", "name": "山野炒鸡", "price": 56, "tag": "", "group": "popular", "rec": 15, "desc": ""}, {"id": "pop-qiguo-jun", "name": "汽锅杂菌汤", "price": null, "tag": "", "group": "popular", "rec": 13, "desc": ""}, {"id": "pop-guoba-tudou", "name": "锅巴土豆", "price": 22, "tag": "", "group": "popular", "rec": 13, "desc": ""}, {"id": "pop-qicai-shala", "name": "七彩沙拉", "price": 26, "tag": "", "group": "popular", "rec": 11, "desc": ""}, {"id": "pop-xiandanhuang-gua", "name": "咸蛋黄焗云南菩提南瓜", "price": 46, "tag": "", "group": "popular", "rec": 8, "desc": ""}, {"id": "pop-daiwei-beef", "name": "傣味碎牛肉", "price": 58, "tag": "", "group": "popular", "rec": 6, "desc": ""}, {"id": "pop-zisu-niwa", "name": "紫苏牛蛙", "price": 52, "tag": "", "group": "popular", "rec": 5, "desc": ""}, {"id": "pop-xuanwei-rou", "name": "宣威小炒肉", "price": 42, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-bohe-juan", "name": "薄荷牛肉卷", "price": 48, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-maoxuewang", "name": "彩云南茉莉香毛血旺", "price": 68, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-lawei-fan", "name": "腊味萃饭", "price": 25, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-huasheng", "name": "云南七彩花生", "price": 22, "tag": "", "group": "popular", "rec": 3, "desc": ""}, {"id": "pop-daiwei-jijiao", "name": "傣味捲鸡脚", "price": 46, "tag": "", "group": "popular", "rec": 2, "desc": ""}, {"id": "more-bxl-beef", "name": "百香果酸汤牛肉", "price": 78, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-youqiang-xia", "name": "版纳油炝虾", "price": 68, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-ningmeng-xia", "name": "柠檬撒撇虾", "price": 88, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-xiangmao-steak", "name": "香茅凤梨蜜汁小牛排", "price": 98, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-laxiang-niu", "name": "辣爆牛胸口", "price": 68, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-mijiu-rou", "name": "云南米酒烧肉", "price": 58, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-juhuacai", "name": "清炒菊花菜", "price": 38, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-meigui-buding", "name": "玫瑰鲜奶奶布", "price": 35, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-luoshen-cha", "name": "洛神玫瑰茶", "price": 22, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-qingti", "name": "青提小麦草", "price": 22, "tag": "", "group": "more", "rec": 0, "desc": ""}, {"id": "more-bala", "name": "手打芭乐", "price": 22, "tag": "", "group": "more", "rec": 0, "desc": ""}], "dishGroups": [{"id": "signature", "label": "招牌"}, {"id": "popular", "label": "大家都爱"}, {"id": "more", "label": "更多"}], "flavorPreferences": [{"id": "chuan", "label": "更想吃川渝鲜香"}, {"id": "dian", "label": "更想吃滇式清鲜"}, {"id": "both", "label": "两种都想尝尝"}, {"id": "later", "label": "到店再看菜单"}], "pets": [{"id": "aries", "sign": "白羊座", "name": "朱雀"}, {"id": "taurus", "sign": "金牛座", "name": "白泽"}, {"id": "gemini", "sign": "双子座", "name": "九尾狐"}, {"id": "cancer", "sign": "巨蟹座", "name": "蛟龙"}, {"id": "leo", "sign": "狮子座", "name": "麒麟"}, {"id": "virgo", "sign": "处女座", "name": "青鸾"}, {"id": "libra", "sign": "天秤座", "name": "凤皇"}, {"id": "scorpio", "sign": "天蝎座", "name": "烛龙"}, {"id": "sagittarius", "sign": "射手座", "name": "英招"}, {"id": "capricorn", "sign": "摩羯座", "name": "陆吾"}, {"id": "aquarius", "sign": "水瓶座", "name": "文鳐鱼"}, {"id": "pisces", "sign": "双鱼座", "name": "陵鱼"}], "flowers": [{"id": "", "label": "不必"}, {"id": "fresh", "label": "鲜花"}, {"id": "preserved", "label": "永生花"}], "ambiences": [{"id": "", "label": "不必"}, {"id": "snow", "label": "雪"}, {"id": "rain", "label": "雨"}, {"id": "dawn", "label": "朝阳"}, {"id": "dusk", "label": "黄昏"}, {"id": "star", "label": "星光"}, {"id": "petals", "label": "花雨"}], "tracks": [{"id": "gentle", "label": "温柔"}, {"id": "festive", "label": "欢庆"}, {"id": "nostalgic", "label": "怀旧"}, {"id": "quiet", "label": "安静"}], "defaultMessage": "石家庄的风起了，想起云南的雨季。\n备了一桌川滇的山野与烟火，\n等你来，把近来的话慢慢说完。"};
 
@@ -1230,10 +1257,112 @@ function onReady(){
     renderInbox(); showView("inbox");
   }
   else if(shot==="letter"||shot==="open"){ openLetter(); }
+  else if(shot==="share"){
+    if(!state.to||state.to==="你") state.to="晚晚";
+    if(!state.from||state.from==="我") state.from="阿途";
+    if(!state.slotDate){ state.slotDate="2026-11-21"; state.slotTime="18:30"; }
+    if(!state.message) state.message=sceneMessage(state.scene,state.occasion);
+    upsertMine(Object.assign(inviteDoc(),{status:"pending",reply:null,createdAt:Date.now()}));
+    fillCreateForm();
+    $("shareUrl").textContent=shareInviteText(canonicalInviteUrl());
+    showView("create");
+    setTimeout(function(){
+      var btn=$("btnGen");
+      if(btn){
+        var y=btn.getBoundingClientRect().top+window.scrollY-24;
+        window.scrollTo(0, Math.max(0,y));
+      }
+    }, 40);
+  }
+  else if(shot==="poster"||shot==="poster-card"){
+    if(!state.to||state.to==="你") state.to="晚晚";
+    if(!state.from||state.from==="我") state.from="阿途";
+    if(!state.slotDate){ state.slotDate="2026-11-21"; state.slotTime="18:30"; }
+    if(!state.message) state.message=sceneMessage(state.scene,state.occasion);
+    fillCreateForm(); fillLetter();
+    showView(shot==="poster-card"?"confirm":"create");
+    setTimeout(function(){ openPoster(shot==="poster-card"?"card":"invite"); }, 80);
+  }
   else if(shot==="landing"){ showView("envelope"); }
   else { showView("envelope"); }
 
   bindEvents();
+}
+
+
+var H5_BASE="https://81601203li-arch.github.io/yueni-chifan/";
+var posterBlobUrl="";
+function canonicalInviteUrl(){
+  var base=H5_BASE;
+  if(base.charAt(base.length-1)!=="/") base+="/";
+  return base+"#p="+encodeCompact(compactInvMin());
+}
+function posterToLabel(){
+  var s=getScene(state.scene);
+  if(s.self) return "自己";
+  if(s.multi&&(!state.to||state.to==="大家"||state.to==="各位"||state.to==="你")) return "各位";
+  return state.to||"你";
+}
+function buildPosterOpts(mode){
+  var s=getScene(state.scene), occ=getOccasion(state.occasion);
+  var slot=currentSlot(), f=formatSlot(slot||{});
+  var from=state.from||"";
+  if(from==="我") from="我";
+  return {
+    theme:state.theme||"jacaranda",
+    season:getSeason(state.season).id,
+    mode:mode||"card",
+    toLabel:posterToLabel(),
+    from:from,
+    kicker:occ?occ.kicker:(s.self?"约自己":"约你吃饭"),
+    excerpt:state.message||sceneMessage(state.scene,state.occasion),
+    hintLine:s.envelopeHint||s.cardVow||"",
+    timeTitle:f.title,
+    timeMeta:f.meta,
+    restLine:(CONFIG.restaurant.shortName||"锦途川滇")+" · "+(CONFIG.restaurant.city||"石家庄")+(CONFIG.restaurant.area||"万象天成"),
+    url:canonicalInviteUrl()
+  };
+}
+function posterFileName(){
+  var to=posterToLabel();
+  return "约你吃饭-"+to+".png";
+}
+function closePoster(){
+  $("posterMask").classList.add("hidden");
+}
+function openPoster(mode){
+  if(typeof YueniPoster==="undefined"){ toast("信笺未能制成"); return; }
+  if(mode==="invite"){
+    readCreateForm();
+    if(!state.slotDate||!state.slotTime){ toast("请填写已经约好的日期与时间"); return; }
+    if(!state.id) upsertMine(Object.assign(inviteDoc(),{status:"pending",reply:null,createdAt:Date.now()}));
+    var url=canonicalInviteUrl();
+    $("shareUrl").textContent=shareInviteText(url);
+    try{ history.replaceState(null,"",inviteShareUrl()); }catch(e){}
+  }else{
+    if(!state.slotDate||!state.slotTime){ toast("请填写已经约好的日期与时间"); return; }
+  }
+  var opts=buildPosterOpts(mode||"card");
+  $("posterMask").classList.remove("hidden");
+  $("posterHint").textContent=/MicroMessenger/i.test(navigator.userAgent||"")
+    ?"长按上方图片，保存到相册，再发到朋友圈。"
+    :"可下载这张信笺。在微信里打开时，长按图片即可保存，再发到朋友圈。";
+  $("posterImg").removeAttribute("src");
+  $("posterImg").alt="正在制成信笺";
+  YueniPoster.render(opts).then(function(res){
+    if(posterBlobUrl && posterBlobUrl.indexOf("blob:")===0 && URL.revokeObjectURL){
+      try{ URL.revokeObjectURL(posterBlobUrl); }catch(e){}
+    }
+    posterBlobUrl=res.url;
+    $("posterImg").src=res.url;
+    $("posterImg").alt="赴约信笺";
+    var a=$("btnPosterSave");
+    a.href=res.url;
+    a.setAttribute("download", posterFileName());
+  }).catch(function(){
+    closePoster();
+    toast("信笺未能制成，请稍后再试");
+  });
 }
 
 function bindEvents(){
@@ -1275,6 +1404,18 @@ function bindEvents(){
   $("btnCopyReply").addEventListener("click", function(){
     var ru=replyShareUrl(); shareOrCopy(ru, shareReplyText(ru), isSelf()?"赴约卡已复制":"回执已复制，请发给邀请人");
   });
+  $("btnPoster").addEventListener("click", function(){ openPoster("invite"); });
+  $("btnPosterOpen").addEventListener("click", function(){ openPoster("card"); });
+  $("btnPosterConfirm").addEventListener("click", function(){ openPoster("card"); });
+  $("btnPosterClose").addEventListener("click", closePoster);
+  $("posterMask").addEventListener("click", function(e){ if(e.target===$("posterMask")) closePoster(); });
+  $("btnPosterSave").addEventListener("click", function(e){
+    if(/MicroMessenger/i.test(navigator.userAgent||"")){
+      e.preventDefault();
+      toast("请长按上方图片，保存到相册");
+    }
+  });
+
   document.addEventListener("click", function(e){
     var t=e.target.closest("[data-scene-pick]");
     if(t){
